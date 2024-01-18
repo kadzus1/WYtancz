@@ -58,21 +58,12 @@ Route::middleware('auth')->group(function () {
     // Usuwanie turnieju
     Route::delete('/tournaments/{tournament}', [UserTournamentsController::class, 'destroy'])->name('tournaments.user-tournaments.destroy');
 
-  
-    // Dołączanie do turnieju
 
-    // Define a GET route to display the form
+    // Trasa dla wyświetlenia formularza dla tancerzy
     Route::get('/tournaments/more/joinEventDancer/{id}', [TournamentController::class, 'dancerJoinForm'])->name('tournaments.dancerJoinForm');
 
-    // Define a POST route to handle form submission
+    // Trasa dla obsługi zapisu danych dla tancerzy
     Route::post('/tournaments/more/joinEventDancer/{id}', [TournamentController::class, 'joinEventDancer'])->name('tournaments.joinEventDancer');
-
-
-    Route::get('/tournaments/more/joinEventSchool/{id}', [TournamentController::class, 'schoolJoinForm'])->name('tournaments.schoolJoinForm');
-    Route::post('/tournaments/more/{id}', [TournamentController::class, 'join'])->name('tournaments.join');
-        
-        // Nowa ścieżka dla tworzenia uczestnika turnieju
-    Route::post('/tournaments/more/joinEventDancer/{id}', [TournamentParticipantController::class, 'create'])->name('tournaments.participant.create');
 
 });
 

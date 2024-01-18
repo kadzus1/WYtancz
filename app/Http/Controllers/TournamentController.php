@@ -73,20 +73,22 @@ public function joinEventDancer(Request $request, $id)
         'age'=> 'required',
         'town'=> 'required',
         'country'=> 'required',
-        'organizator' => 'nullable', // dodaj resztę pól
+        'organizator' => 'nullable',
         'teacherName' => 'nullable',
         'teacherSurname' => 'nullable',
         'teacherPhoneNumber' => 'nullable',
-        // Add other fields as needed
     ]);
 
     // Other logic, such as saving to the database
     $tournamentParticipant = new TournamentParticipant($validatedData);
     $tournamentParticipant->user_id = auth()->id();
     $tournamentParticipant->tournament_id = $id;
-    $tournamentParticipant->save();
-
-    return redirect()->route('tournaments.tournament')->with('success', 'Dołączono do turnieju.');
+    if ($tournamentParticipant->save()) {
+        return redirect()->route('tournaments.tournament')->with('success', 'Dołączono do turnieju.');
+    } else {
+        return redirect()->route('tournaments.tournament')->with('error', 'Wystąpił problem podczas zapisywania danych.');
+    }
+    
 }
 
 
