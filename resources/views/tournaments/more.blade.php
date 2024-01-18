@@ -9,21 +9,21 @@
 </div>
 
 
-<div style="display: flex; justify-content: space-between; margin-top: 200px; padding: 20px; box-sizing: border-box; text-align: center;">
+<div style="display: flex; justify-content: space-between; margin-top: 200px; height: 200px; padding: 20px; box-sizing: border-box; text-align: center;">
 
     <div style="width: 30%; border-radius: 20%; padding: 20px; transition: transform 0.3s ease-in-out;">
-        <i class="fas fa-calendar" style="font-size: 4em; color: #9d0000; padding:30px; background-color: black; border-radius: 50%;"></i><br>
-        <h3 style="font-size: 2em; color: #9d0000; margin-top: 10px;">Harmonogram</h3>       
+        <i class="fas fa-calendar" style="font-size: 4em; color: #9d0000; padding:30px; border-radius: 50%;"></i><br>
+        <h3 style="font-size: 2em; color: black; margin-top: 10px;">Harmonogram</h3>       
     </div>
 
     <div style="width: 30%; border-radius: 20%; padding: 20px; transition: transform 0.3s ease-in-out;">
-        <i class="fas fa-list" style="font-size: 4em; color: #9d0000; padding:30px; background-color: black; border-radius: 50%;"></i><br>
-        <h3 style="font-size: 2em; color: #9d0000; margin-top: 10px;">Listy startowe</h3>       
+        <i class="fas fa-list" style="font-size: 4em; color: #9d0000; padding:30px; border-radius: 50%;"></i><br>
+        <h3 style="font-size: 2em; color: black; margin-top: 10px;">Listy startowe</h3>       
     </div>
 
     <div style="width: 30%; border-radius: 20%; padding: 20px; transition: transform 0.3s ease-in-out;">
-        <i class="fas fa-plus" style="font-size: 4em; color: #9d0000; padding:30px; background-color: black; border-radius: 50%;"></i><br>
-        <h3 style="font-size: 2em; color: #9d0000; margin-top: 10px;">
+        <i class="fas fa-plus" style="font-size: 4em; color: #9d0000; padding:30px; border-radius: 50%;"></i><br>
+        <h3 style="font-size: 2em; color: black; margin-top: 10px;">
             <a href="#" id="joinEventLink" data-tournament-id="{{ $tournament->id }}">Dołącz do wydarzenia</a>
         </h3>
     </div>
