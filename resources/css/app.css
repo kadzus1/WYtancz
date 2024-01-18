@@ -2,14 +2,3 @@
 @tailwind components;
 @tailwind utilities;
 
-.form-step {
-    @apply hidden; /* Użyj klasy `hidden` z Tailwind CSS */
-}
-
-.progress-step {
-    @apply w-5 h-5 bg-gray-300 rounded-full mr-2 inline-block; /* Wykorzystaj klasy do stylizacji */
-}
-
-.progress-step.active {
-    @apply bg-green-500; /* Kolor aktywnego kroku */
-}

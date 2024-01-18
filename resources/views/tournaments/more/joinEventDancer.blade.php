@@ -142,14 +142,14 @@
         document.getElementById('organizator').removeAttribute('disabled');
         document.getElementById('teacherName').removeAttribute('disabled');
         document.getElementById('teacherSurame').removeAttribute('disabled');
-        document.getElementById('techerPhoneNumber').removeAttribute('disabled');
+        document.getElementById('teacherPhoneNumber').removeAttribute('disabled');
     } else {
         instructorFields.style.display = 'none';
         // Zdezaktywuj pola instruktora
         document.getElementById('organizator').setAttribute('disabled', 'disabled');
         document.getElementById('teacherName').setAttribute('disabled', 'disabled');
         document.getElementById('teacherSurame').setAttribute('disabled', 'disabled');
-        document.getElementById('techerPhoneNumber').setAttribute('disabled', 'disabled');
+        document.getElementById('teacherPhoneNumber').setAttribute('disabled', 'disabled');
     }
 });
 

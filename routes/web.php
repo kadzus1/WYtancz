@@ -59,11 +59,17 @@ Route::middleware('auth')->group(function () {
     Route::delete('/tournaments/{tournament}', [UserTournamentsController::class, 'destroy'])->name('tournaments.user-tournaments.destroy');
 
 
-    // Trasa dla wyświetlenia formularza dla tancerzy
-    Route::get('/tournaments/more/joinEventDancer/{id}', [TournamentController::class, 'dancerJoinForm'])->name('tournaments.dancerJoinForm');
+   // Trasa dla wyświetlenia formularza dla tancerzy
+   Route::get('/tournaments/more/joinEventDancer/{id}', [TournamentController::class, 'dancerJoinForm'])->name('tournaments.dancerJoinForm');
+
+   // Trasa dla obsługi zapisu danych dla tancerzy
+   Route::post('/tournaments/more/joinEventDancer/{id}', [TournamentController::class, 'joinEventDancer'])->name('tournaments.joinEventDancer');
+
+   // Trasa dla wyświetlenia formularza dla szkoły tańca
+   Route::get('/tournaments/more/joinEventSchool/{id}', [TournamentController::class, 'schoolJoinForm'])->name('tournaments.schoolJoinForm');
 
     // Trasa dla obsługi zapisu danych dla tancerzy
-    Route::post('/tournaments/more/joinEventDancer/{id}', [TournamentController::class, 'joinEventDancer'])->name('tournaments.joinEventDancer');
+   Route::post('/tournaments/more/joinEventSchool/{id}', [TournamentController::class, 'joinEventDancer'])->name('tournaments.joinEventDancer');
 
 });
 
