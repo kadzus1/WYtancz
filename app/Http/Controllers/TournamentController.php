@@ -65,66 +65,103 @@ public function dancerJoinForm($id)
 
 public function joinEventDancer(Request $request, $id)
 {
+
+    
     $validator = $request->validate([
-        'p_name' => 'required|array',
+        
         'p_name.*' => 'required',
-        'p_surname' => 'required|array',
         'p_surname.*' => 'required',
-        'birthDate' => 'required|array',
         'birthDate.*' => 'required',
-        'age' => 'required|array',
         'age.*' => 'required',
-        'town' => 'required|array',
         'town.*' => 'required',
-        'country' => 'required|array',
         'country.*' => 'required',
         'organizator' => 'nullable',
         'teacherName' => 'nullable',
         'teacherSurname' => 'nullable',
         'teacherPhoneNumber' => 'nullable',
     ]);
+    
 
     $user_id = auth()->id();
     $participantsData = [];
 
-    // Sprawdź, czy dane są pojedyncze czy tablicowe
-    if (!is_array($validator['p_name'])) {
-        // Dane dla pojedynczego tancerza
+   
+    // Dane dla wielu tancerzy
+    foreach ($validator['p_name'] as $key => $value) {
         $participantsData[] = [
-            'p_name' => $validator['p_name'],
-            'p_surname' => $validator['p_surname'],
-            'birthDate' => $validator['birthDate'],
-            'age' => $validator['age'],
-            'town' => $validator['town'],
-            'country' => $validator['country'],
+            'p_name' => $validator['p_name'][$key],
+            'p_surname' => $validator['p_surname'][$key],
+            'birthDate' => $validator['birthDate'][$key],
+            'age' => $validator['age'][$key],
+            'town' => $validator['town'][$key],
+            'country' => $validator['country'][$key],
+            'organizator' => $validator['organizator'][$key],
+            'teacherName' => $validator['teacherName'][$key],
+            'teacherSurname' => $validator['teacherSurname'][$key],
+            'teacherPhoneNumber' => $validator['teacherPhoneNumber'][$key],
             'user_id' => $user_id,
             'tournament_id' => $id,
         ];
-    } else {
-        // Dane dla wielu tancerzy
-        foreach ($validator['p_name'] as $key => $value) {
-            $participantsData[] = [
-                'p_name' => $value,
-                'p_surname' => $validator['p_surname'][$key],
-                'birthDate' => $validator['birthDate'][$key],
-                'age' => $validator['age'][$key],
-                'town' => $validator['town'][$key],
-                'country' => $validator['country'][$key],
-                'user_id' => $user_id,
-                'tournament_id' => $id,
-            ];
-        }
-    }
-
-    // Zapisz dane uczestników do bazy danych
-    if (TournamentParticipant::insert($participantsData)) {
-        return redirect()->route('tournaments.tournament')->with('success', 'Dołączono do turnieju.');
-    } else {
-        return redirect()->route('tournaments.tournament')->with('error', 'Wystąpił problem podczas zapisywania danych.');
-    }
+    
 }
 
 
+// Zapisz dane uczestników do bazy danych
+if (TournamentParticipant::insert($participantsData)) {
+    return redirect()->route('tournaments.tournament')->with('success', 'Dołączono do turnieju.');
+} else {
+    return redirect()->route('tournaments.tournament')->with('error', 'Wystąpił problem podczas zapisywania danych.');
+}
+
+}
+
+
+public function joinEventSchool(Request $request, $id)
+{
+    
+    $validator = $request->validate([
+        'p_name.*' => 'required|array',
+        'p_surname.*' => 'required|array',
+        'birthDate.*' => 'required|array',
+        'age.*' => 'required|array',
+        'town.*' => 'required|array',
+        'country.*' => 'required|array',
+        
+        'organizator.*' => 'nullable',
+        'teacherName.*' => 'nullable',
+        'teacherSurname.*' => 'nullable',
+        'teacherPhoneNumber.*' => 'nullable',
+    ]);
+    
+    $user_id = auth()->id();
+    $participantsData = [];
+
+   
+        foreach ($validator['p_name'] as $key => $value) {
+            $participantsData[] = [
+                'p_name' => $validator['p_name'][$key],
+            'p_surname' => $validator['p_surname'][$key],
+            'birthDate' => $validator['birthDate'][$key],
+            'age' => $validator['age'][$key],
+            'town' => $validator['town'][$key],
+            'country' => $validator['country'][$key],
+            'organizator' => $validator['organizator'][$key],
+            'teacherName' => $validator['teacherName'][$key],
+            'teacherSurname' => $validator['teacherSurname'][$key],
+            'teacherPhoneNumber' => $validator['teacherPhoneNumber'][$key],
+            'user_id' => $user_id,
+            'tournament_id' => $id,
+            ];
+        }
+
+
+    // Zapisz dane do tabeli TournamentParticipant
+    if (TournamentParticipant::insert($participantsData)) {
+        return redirect()->route('tournaments.tournament')->with('success', 'Tancerze zostali dodani do turnieju.');
+    } else {
+        return redirect()->route('tournaments.tournament')->with('error', 'Wystąpił błąd podczas zapisywania danych.');
+    }
+}
 
 public function schoolJoinForm($id)
 {
@@ -156,5 +193,13 @@ public function join(Request $request, $id)
     return redirect()->route('tournaments.tournament')->with('success', 'Dołączono do turnieju.');
 }
 
+public function startList()
+    {
+        // Pobierz dane z tabeli 'tournament'
+        $participants = TournamentParticipant::all();
+
+        // Przekaz dane do widoku
+        return view('tournaments.more.startList', ['participants' => $participants]);
+    }
 
 }

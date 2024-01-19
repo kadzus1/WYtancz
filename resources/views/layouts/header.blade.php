@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Strona główna</title>
+
     <link rel="icon" type="image/x-icon" href="{{ asset('storage/css/images/icon.png') }}">
+
     <link rel="stylesheet" href="{{ asset('storage/css/main1.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
@@ -13,15 +15,15 @@
         @if (Route::has('login'))
         <div class="sm:fixed sm:top-0 sm:right-0 p-6 z-10 mt-8 text-center">
             @auth
-                <a href="{{ url('/dashboard') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</a>
+                <a href="{{ url('/dashboard') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Tablica</a>
             @else
                 <a href="{{ route('login') }}" class="flex items-center font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-                    <i class="fas fa-key fa-lg mr-2"></i> Log in
+                    <i class="fas fa-key fa-lg mr-2"></i> Logowanie
                 </a>
     
                 @if (Route::has('register'))
                     <a href="{{ route('register') }}" class="ml-4 flex items-center font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-                        <i class="fas fa-user-plus fa-lg mr-2"></i> Register
+                        <i class="fas fa-user-plus fa-lg mr-2"></i> Rejestracja
                     </a>
                 @endif
             @endauth

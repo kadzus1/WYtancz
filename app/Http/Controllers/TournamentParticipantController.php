@@ -36,6 +36,7 @@
     // Przypisanie ID wybranego turnieju do pola 'tournament_id'
     $validatedData['tournament_id'] = $request->input('tournament_id');
 
+
     // Zapisanie danych do bazy danych
     TournamentParticipant::create($validatedData);
 

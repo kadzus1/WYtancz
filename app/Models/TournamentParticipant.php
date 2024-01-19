@@ -10,6 +10,7 @@ class TournamentParticipant extends Model
     use HasFactory;
 
     protected $fillable = [
+        'start_id',
         'user_id',
         'tournament_id',
         'p_name',

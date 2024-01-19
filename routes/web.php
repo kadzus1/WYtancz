@@ -24,6 +24,8 @@ Route::get('/', function () {
 Route::get('/welcome', function () {
     return view('welcome');})->name('welcome');
 
+Route::get('/more/startList', [TournamentController::class, 'startList'])->name('startList');
+
 Route::get('/login', function () {
         return view('auth.login');})->name('login');
 
@@ -66,10 +68,10 @@ Route::middleware('auth')->group(function () {
    Route::post('/tournaments/more/joinEventDancer/{id}', [TournamentController::class, 'joinEventDancer'])->name('tournaments.joinEventDancer');
 
    // Trasa dla wyświetlenia formularza dla szkoły tańca
-   Route::get('/tournaments/more/joinEventSchool/{id}', [TournamentController::class, 'schoolJoinForm'])->name('tournaments.schoolJoinForm');
+   Route::get('/tournaments/more/joinEventSchool/{id}', [TournamentController::class, 'schoolJoinForm'])->name('tournaments.joinEventSchool');
 
     // Trasa dla obsługi zapisu danych dla tancerzy
-   Route::post('/tournaments/more/joinEventSchool/{id}', [TournamentController::class, 'joinEventDancer'])->name('tournaments.joinEventDancer');
+   Route::post('/tournaments/more/joinEventSchool/{id}', [TournamentController::class, 'joinEventSchool'])->name('tournaments.joinEventSchool');
 
 });
 
