@@ -6,6 +6,8 @@
 
 <x-guest-layout>
     
+    
+
     <div class="text-center mt-10">
         <h2 class="text-l font-bold mb-4">Rejestrujesz się na wydarzenie</h2>
         <h2 class="text-2xl font-bold mb-4">{{ $tournament->name }}</h2>
@@ -48,7 +50,7 @@
                  <!-- Birth date -->
                 <div>
                     <x-input-label :value="__('Data urodzenia')" />
-                    <input type="date" name="birthDate[]" class="mt-1 block w-full calculate_bdate" onchange="calculateAge()" />
+                    <input type="date" name="birthDate[]" class="mt-1 block w-full calculate_bdate" onchange="calculateAge()" max="{{ date('Y-m-d') }}/>
                     <x-input-error class="mt-2" :messages="$errors->get('birthDate')" />
                 </div>
 
@@ -127,6 +129,9 @@
 
     
         <script>
+            
+        //         // Pokaż przycisk "Zapisz dane"
+        // document.getElementById('saveButton').style.display = 'inline-flex';
 
         var today = new Date();
         function calculateAge() {
@@ -159,8 +164,6 @@
                 dancerContainer.appendChild(newDancerSection);
                 newDancerSection.classList.remove('hidden');
 
-                // Pokaż przycisk "Zapisz dane"
-        document.getElementById('saveButton').style.display = 'inline-flex';
    
         document.getElementById('addInstructor').addEventListener('change', function () {
     var instructorFields = document.getElementById('instructorFields');

@@ -18,10 +18,10 @@ class CreateTournamentParticipantsTable extends Migration
         $table->integer('age');
         $table->text('town');
         $table->text('country');
-        $table->text('organizator');
-        $table->text('teacherName');
-        $table->text('teacherSurname');
-        $table->integer('techerPhoneNumber');
+        $table->text('organizator')->nullable();
+        $table->text('teacherName')->nullable();
+        $table->text('teacherSurname')->nullable();
+        $table->integer('teacherPhoneNumber')->nullable();
         $table->timestamps();
     });
 }

@@ -26,6 +26,7 @@ class TournamentParticipant extends Model
 
 
     ];
+    
 
     // Relacja do użytkownika
     public function user()

@@ -10,6 +10,12 @@
         @csrf
         @method('patch')
 
+        <label for="signups_open">Zapisy otwarte?</label>
+                <select name="signups_open" class="form-control">
+                    <option value="1" {{ $tournament->signups_open ? 'selected' : '' }}>Tak</option>
+                    <option value="0" {{ !$tournament->signups_open ? 'selected' : '' }}>Nie</option>
+                </select>
+
         <div class="mb-4">
             <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 {{ __('Nazwa') }}

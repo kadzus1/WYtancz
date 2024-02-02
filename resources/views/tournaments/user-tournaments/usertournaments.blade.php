@@ -18,7 +18,7 @@
 <div class="max-w-7xl w-3/4 mx-auto py-6 px-4 sm:px-6 lg:px-8 dark:text-white ">
     @if($userTournaments->isEmpty())
         <div class="flex items-center justify-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md my-4">
-            <strong>Brak zaplanowanych wydarzeń.</strong>
+            <strong>Brak dodanych wydarzeń.</strong>
         </div>
     @else
         <table class="w-full min-w-full divide-y divide-gray-200 dark:divide-gray-600 dark:border-gray-600">
@@ -37,8 +37,12 @@
                         Data
                     </th>
                     <th scope="col" class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Miejsce
+                    </th>
+                    <th scope="col" class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Operacje
                     </th>
+
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-600 dark:border-gray-600">
@@ -55,6 +59,9 @@
                         </td>
                         <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300">
                             {{ $tournament->date }}
+                        </td>
+                        <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300">
+                            {{ $tournament->place }}
                         </td>
                         <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300 flex items-center">
                             <a href="{{ route('tournaments.user-tournaments.edit-tournament', $tournament->id) }}" class="text-blue-500 hover:underline" title="Edytuj"><i class="fas fa-pencil-alt"></i></a>

@@ -13,10 +13,12 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-...." crossorigin="anonymous" />
         <link rel="icon" type="image/x-icon" href="{{ asset('storage/css/images/icon.png') }}">
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link href="https://cdn.jsdelivr.net/npm/flowbite@2.2.1/dist/flowbite.min.css" rel="stylesheet">
+
 
         <!-- Scripts -->
         <link href="/css/app.css" rel="stylesheet">
-        <script src="/js/app.js"></script>
+        
 
         
     </head>
@@ -26,9 +28,11 @@
         @else @include('layouts.navigationNU')
        @endif
 
+       
             <!-- Page Content -->
             <main>
                 @yield('content')
             </main>
+            <script src="/js/app.js"></script>
     </body>
 </html>

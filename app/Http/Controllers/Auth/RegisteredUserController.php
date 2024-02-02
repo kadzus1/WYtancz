@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -34,6 +35,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role' => ['required', 'string', 'in:tancerz,szkola_tanca'], // Dodajemy walidację roli
         ]);
 
         $user = User::create([
@@ -42,10 +44,23 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        // Przypisanie roli na podstawie wyboru użytkownika
+        if ($request->role === 'tancerz') {
+            $role = Role::where('name', 'tancerz')->first();
+        } elseif ($request->role === 'szkola_tanca') {
+            $role = Role::where('name', 'szkola_tanca')->first(); // Sprawdź, czy nazwa roli jest zgodna z bazą danych
+        } else {
+            // Obsługa błędu: nieprawidłowa rola
+            return redirect()->back()->withErrors(['role' => 'Nieprawidłowa rola.']);
+        }
+
+        $user->roles()->attach($role);
+
         event(new Registered($user));
 
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
     }
+    
 }

@@ -29,25 +29,62 @@
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
                             <div>{{ Auth::user()->name }}</div>
-
+                            
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                 </svg>
                             </div>
                         </button>
+                    @if (auth()->user()->hasRole('administrator'))
+                        <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+                            {{ __("Administrator") }}
+                        </span>
+                    @endif
+                    @if (auth()->user()->hasRole('tancerz'))
+                    <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
+                        {{ __("Tancerz") }}
+                    </span>
+                @endif
+                @if (auth()->user()->hasRole('szkola_tanca'))
+                <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
+                    {{ __("Szkoła tańca") }}
+                </span>
+            @endif
                     </x-slot>
-
+                    
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profil') }}
                         </x-dropdown-link>
 
 
-                         {{-- Tournaments --}}
-                <x-dropdown-link :href="route('tournaments.user-tournaments.usertournaments')">
-                    {{ __('Moje turnieje') }}
-                </x-dropdown-link>
+                    @if (auth()->user()->hasRole('administrator'))
+                        <x-dropdown-link :href="route('tournaments.user-tournaments.admin.allprofiles')">
+                            {{ __('Wszystkie profile') }}
+                        </x-dropdown-link>
+                        </span> @endif
+
+
+                    @if (auth()->user()->hasRole('tancerz'))    
+                            {{-- Tournaments --}}
+                    <x-dropdown-link :href="route('tournaments.user-tournaments.usertournaments')">
+                        {{ __('Moje turnieje') }}
+                    </x-dropdown-link>@endif
+                    @if (auth()->user()->hasRole('szkola_tanca'))    
+                            {{-- Tournaments --}}
+                    <x-dropdown-link :href="route('tournaments.user-tournaments.usertournaments')">
+                        {{ __('Moje turnieje') }}
+                    </x-dropdown-link>@endif
+
+
+                    @if (auth()->user()->hasRole('administrator'))
+                    <x-dropdown-link :href="route('tournaments.user-tournaments.admin.alltournaments')">
+                        {{ __('Wszystkie turnieje') }}
+                    </x-dropdown-link>
+                    </span> @endif
+
+                    
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">

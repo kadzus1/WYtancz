@@ -38,7 +38,7 @@
          <!-- Birth date -->
          <div>
             <x-input-label for="birthDate" :value="__('Data urodzenia')" />
-            <input type="date" id="birthDate" name="birthDate[]" class="mt-1 block w-full" onchange="calculateAge()" />
+            <input type="date" id="birthDate" name="birthDate[]" class="mt-1 block w-full" onchange="calculateAge()" max="{{ date('Y-m-d') }}"/>
             <x-input-error class="mt-2" :messages="$errors->get('birthDate')" />
         </div>
 
@@ -46,7 +46,8 @@
          <!-- Age -->
          <div>
             <x-input-label for="age" :value="__('Wiek')" />
-            <input type="text" id="age" name="age[]" class="mt-1 block w-full" readonly />
+            <input type="text" id="age" name="age[]" readonly/><br>
+            <label id="ageErrorMessage" class="text-red-500 hidden"></label>
             <x-input-error class="mt-2" :messages="$errors->get('age')" />
         </div>
 
@@ -119,19 +120,41 @@
     </form>
 
     <script>
-        function calculateAge() {
-            var birthDate = new Date(document.getElementById('birthDate').value);
-            var today = new Date();
-    
-            var age = today.getFullYear() - birthDate.getFullYear();
-    
-            // Sprawdzamy, czy urodziny w tym roku już były
-            if (today.getMonth() < birthDate.getMonth() || (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
-                age--;
-            }
-    
-            document.getElementById('age').value = age;
+         function calculateAge() {
+        var birthDate = new Date(document.getElementById('birthDate').value);
+        var today = new Date();
+        var age = today.getFullYear() - birthDate.getFullYear();
+
+        // Sprawdź, czy urodziny w tym roku już były
+        if (today.getMonth() < birthDate.getMonth() || (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
+            age--;
         }
+
+        // Zapisz wiek do pola wieku
+        document.getElementById('age').value = age;
+
+        // Sprawdź, czy wiek mieści się w zakresie
+        var minAge = {{ $tournament->fromAge }};
+        var maxAge = {{ $tournament->toAge }};
+        if (age < minAge || age > maxAge) {
+            // Wiek nie mieści się w zakresie, wyświetl komunikat
+            document.getElementById('ageErrorMessage').innerText = 'Wiek nie mieści się w wymaganym zakresie (' + minAge + '-' + maxAge + ')';
+            document.getElementById('ageErrorMessage').classList.remove('hidden');
+            return false; // Zwróć false, aby uniemożliwić zapis danych
+        } else {
+            // Wiek mieści się w zakresie, ukryj komunikat
+            document.getElementById('ageErrorMessage').classList.add('hidden');
+            return true; // Zwróć true, aby umożliwić zapis danych
+        }
+    }
+
+    document.getElementById('saveButton').addEventListener('click', function (event) {
+        // Sprawdź wiek przed zapisem danych
+        if (!calculateAge()) {
+            // Jeśli wiek nie jest w odpowiednim zakresie, przerwij zapis danych
+            event.preventDefault();
+        }
+    });
 
         document.getElementById('addInstructor').addEventListener('change', function () {
     var instructorFields = document.getElementById('instructorFields');
@@ -152,6 +175,7 @@
         document.getElementById('teacherPhoneNumber').setAttribute('disabled', 'disabled');
     }
 });
+
 
     </script>
 

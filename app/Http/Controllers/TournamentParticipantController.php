@@ -23,7 +23,7 @@
                 'age'=> 'required',
                 'town'=> 'required',
                 'country'=> 'required',
-                'organizator' => 'nullable', // dodaj resztę pól
+                'organizator' => 'nullable',
                 'teacherName' => 'nullable',
                 'teacherSurname' => 'nullable',
                 'teacherPhoneNumber' => 'nullable',

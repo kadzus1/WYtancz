@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TournamentParticipantController;
 use Illuminate\Support\Facades\Route;
@@ -24,10 +25,14 @@ Route::get('/', function () {
 Route::get('/welcome', function () {
     return view('welcome');})->name('welcome');
 
-Route::get('/more/startList', [TournamentController::class, 'startList'])->name('startList');
+Route::get('more/startList/{tournamentId}', [TournamentController::class, 'startList'])->name('startList');
+
 
 Route::get('/login', function () {
         return view('auth.login');})->name('login');
+
+Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
+Route::post('register', [RegisteredUserController::class, 'store']);       
 
 Route::get('/more/{id}', [TournamentController::class, 'moretournament'])->name('tournaments.more');
 
@@ -51,6 +56,11 @@ Route::middleware('auth')->group(function () {
     // User tournaments
     Route::get('/tournaments/user-tournaments', [UserTournamentsController::class, 'usertournaments'])->name('tournaments.user-tournaments.usertournaments');
 
+    //Admin tournament, profiles
+    Route::get('/tournaments/user-tournaments/admin/alltournaments', [TournamentController::class, 'alltournament'])->name('tournaments.user-tournaments.admin.alltournaments');
+    Route::get('/tournaments/user-tournaments/admin/allprofiles', [ProfileController::class, 'show'])->name('tournaments.user-tournaments.admin.allprofiles');
+
+
     // Edycja turnieju
     Route::get('/tournaments/{tournament}/edit', [UserTournamentsController::class, 'edit'])->name('tournaments.user-tournaments.edit-tournament');
     Route::patch('/tournaments/{tournament}/update', [UserTournamentsController::class, 'update'])->name('tournaments.user-tournaments.update');
@@ -73,6 +83,11 @@ Route::middleware('auth')->group(function () {
     // Trasa dla obsługi zapisu danych dla tancerzy
    Route::post('/tournaments/more/joinEventSchool/{id}', [TournamentController::class, 'joinEventSchool'])->name('tournaments.joinEventSchool');
 
+   Route::get('/api/tournaments/{tournamentId}/status', [TournamentController::class, 'getStatus']);
+
+   Route::delete('/tournaments/remove-participant/{id}', [TournamentController::class, 'removeParticipant'])
+            ->name('removeParticipant');
+   
 });
 
 require __DIR__.'/auth.php';

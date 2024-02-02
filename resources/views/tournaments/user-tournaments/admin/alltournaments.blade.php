@@ -5,32 +5,20 @@
 @if(session('success'))
 <div class="flex items-center p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
     <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+      <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
     </svg>
     <span class="sr-only">Info</span>
     <div>
-        <span class="font-medium">{{ session('success') }}</span>
+      <span class="font-medium">{{ session('success') }}</span>
     </div>
 </div>
 @endif
 
-@if(auth()->check())
-<div class="flex items-center justify-center h-48 dark:bg-gray-800 my-8 ">
-    <div class="shadow-md rounded-lg dark:bg-gray-700">
-        <a href="{{ route('tournaments.addtournament') }}" class="flex items-center bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-3 px-4 border border-blue-500 hover:border-transparent rounded">
-            Dodaj wydarzenie
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 ml-2 text-blue-500">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-            </svg>
-        </a>
-    </div>
-</div>
-@endif
 
-<div class="max-w-7xl w-3/4 mx-auto py-3 px-4 sm:px-6 lg:px-8 mt-4 dark:text-white ">
+<div class="max-w-7xl w-3/4 mx-auto py-6 px-4 sm:px-6 lg:px-8 dark:text-white ">
     @if($tournaments->isEmpty())
         <div class="flex items-center justify-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md my-4">
-            <strong>Brak zaplanowanych wydarzeń.</strong>
+            <strong>Brak dodanych wydarzeń.</strong>
         </div>
     @else
         <table class="w-full min-w-full divide-y divide-gray-200 dark:divide-gray-600 dark:border-gray-600">
@@ -49,17 +37,11 @@
                         Data
                     </th>
                     <th scope="col" class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Liczba osób
-                    </th>
-                    <th scope="col" class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Miejsce
-                    </th>
-                    <th scope="col" class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Operacje
                     </th>
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-600 dark:border-gray-600 ">
+            <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-600 dark:border-gray-600">
                 @foreach($tournaments as $tournament)
                     <tr>
                         <td class="py-4 px-6 text-sm font-medium text-gray-900 dark:text-gray-100">
@@ -74,24 +56,25 @@
                         <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300">
                             {{ $tournament->date }}
                         </td>
-                        <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300">
-                            {{ $tournament->participants()->count() }}/{{ $tournament->numberPeople }}
-                        </td>
-                        <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300">
-                            {{ $tournament->place}}
-                        </td>
-                        <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300 flex items-center justify-center">
-                            <form method="GET" action="{{ route('tournaments.more', ['id' => $tournament->id]) }}">
+                        <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300 flex items-center">
+                            <a href="{{ route('tournaments.user-tournaments.edit-tournament', $tournament->id) }}" class="text-blue-500 hover:underline" title="Edytuj"><i class="fas fa-pencil-alt"></i></a>
+                            <span class="ml-2 mr-2">     |     </span>
+                            <form method="post" action="{{ route('tournaments.user-tournaments.destroy', $tournament->id) }}">
                                 @csrf
-                                <button type="submit">
-                                    <i class="fas fa-info-circle"></i> Szczegóły
-                                </button>
+                                @method('delete')
+                                <button type="submit"><i class="fas fa-dumpster"></i></button>
                             </form>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+        <x-modal name="confirm-tournament-deletion-{{ $tournament->id }}" :show="$errors->userDeletion->isNotEmpty()" focusable>
+            Usunięto turniej.
+        </x-modal>
     @endif
 </div>
+
+
+
 @endsection
