@@ -22,6 +22,9 @@ class CreateTournamentsTable extends Migration
             $table->integer('fromAge');
             $table->integer('toAge');
             $table->foreignId('user_id')->constrained(); // klucz obcy 
+            $table->enum('type', ['solowe', 'grupowe'])->default('solowe'); // dodane pole typu turnieju
+            $table->foreignId('user_id')->constrained(); // klucz obcy 
+
 
 
             $table->timestamps();

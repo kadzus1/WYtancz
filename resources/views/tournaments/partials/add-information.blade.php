@@ -62,54 +62,33 @@
             <x-input-error class="mt-2" :messages="$errors->get('toAge')" />
         </div>
 
+        <div>
+            <x-input-label for="type" :value="__('Typ turnieju')" /><br>
+            <div class="flex items-center">
+                <input id="solowe" name="type" type="radio" value="solowe" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-gray-700 dark:text-indigo-400 dark:bg-gray-900 dark:checked:bg-indigo-600 dark:checked:border-transparent dark:checked:focus:border-transparent dark:focus:ring-offset-gray-800 dark:focus:ring-offset-2 dark:focus:ring-indigo-500">
+                <label for="solowe" class="ml-2 block text-sm text-gray-900 dark:text-gray-100">{{ __('Solowy') }}</label>
+            </div><br>
+            <div class="flex items-center">
+                <input id="grupowe" name="type" type="radio" value="grupowe" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-gray-700 dark:text-indigo-400 dark:bg-gray-900 dark:checked:bg-indigo-600 dark:checked:border-transparent dark:checked:focus:border-transparent dark:focus:ring-offset-gray-800 dark:focus:ring-offset-2 dark:focus:ring-indigo-500">
+                <label for="grupowe" class="ml-2 block text-sm text-gray-900 dark:text-gray-100">{{ __('Grupowy') }}</label>
+            </div>
+        </div>
+        
+
         <fieldset>
             <legend class="text-base font-medium text-gray-900 dark:text-gray-100">{{ __('Style tańca') }}</legend>
             <div class="mt-4 space-y-4">
-                <div class="flex items-center">
-                    <input id="hip-hop" name="danceStyles[]" type="checkbox" value="hip-hop" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-gray-700 dark:text-indigo-400 dark:bg-gray-900 dark:checked:bg-indigo-600 dark:checked:border-transparent dark:checked:focus:border-transparent dark:focus:ring-offset-gray-800 dark:focus:ring-offset-2 dark:focus:ring-indigo-500">
-                    <label for="hip-hop" class="ml-2 block text-sm text-gray-900 dark:text-gray-100">{{ __('Hip-hop') }}</label>
-                </div>
-                <div class="flex items-center">
-                    <input id="disco-dance" name="danceStyles[]" type="checkbox" value="disco-dance" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-gray-700 dark:text-indigo-400 dark:bg-gray-900 dark:focus:ring-gray-500 dark:checked:bg-indigo-600 dark:checked:border-transparent dark:checked:focus:border-transparent dark:focus:ring-offset-gray-800 dark:focus:ring-offset-2">
-                    <label for="disco-dance" class="ml-2 block text-sm text-gray-900 dark:text-gray-100">{{ __('Disco Dance') }}</label>
-                </div>
-                <div class="flex items-center">
-                    <input id="balet" name="danceStyles[]" type="checkbox" value="balet" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-gray-700 dark:text-indigo-400 dark:bg-gray-900 dark:focus:ring-gray-500 dark:checked:bg-indigo-600 dark:checked:border-transparent dark:checked:focus:border-transparent dark:focus:ring-offset-gray-800 dark:focus:ring-offset-2">
-                    <label for="balet" class="ml-2 block text-sm text-gray-900 dark:text-gray-100">{{ __('Balet') }}</label>
-                </div>
-                <div class="flex items-center">
-                    <input id="jazz" name="danceStyles[]" type="checkbox" value="jazz" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-gray-700 dark:text-indigo-400 dark:bg-gray-900 dark:focus:ring-gray-500 dark:checked:bg-indigo-600 dark:checked:border-transparent dark:checked:focus:border-transparent dark:focus:ring-offset-gray-800 dark:focus:ring-offset-2">
-                    <label for="jazz" class="ml-2 block text-sm text-gray-900 dark:text-gray-100">{{ __('Jazz') }}</label>
-                </div>
-                <div class="flex items-center">
-                    <input id="nowoczesny" name="danceStyles[]" type="checkbox" value="nowoczesny" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-gray-700 dark:text-indigo-400 dark:bg-gray-900 dark:checked:bg-indigo-600 dark:checked:border-transparent dark:checked:focus:border-transparent dark:focus:ring-offset-gray-800 dark:focus:ring-offset-2 dark:focus:ring-indigo-500">
-                    <label for="nowoczesny" class="ml-2 block text-sm text-gray-900 dark:text-gray-100">{{ __('Taniec nowoczesny') }}</label>
-                </div>
-                <div class="flex items-center">
-                    <input id="open" name="danceStyles[]" type="checkbox" value="open" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-gray-700 dark:text-indigo-400 dark:bg-gray-900 dark:checked:bg-indigo-600 dark:checked:border-transparent dark:checked:focus:border-transparent dark:focus:ring-offset-gray-800 dark:focus:ring-offset-2 dark:focus:ring-indigo-500">
-                    <label for="open" class="ml-2 block text-sm text-gray-900 dark:text-gray-100">{{ __('Open') }}</label>
-                </div>
-                <div class="flex items-center">
-                    <input id="latino" name="danceStyles[]" type="checkbox" value="latino" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-gray-700 dark:text-indigo-400 dark:bg-gray-900 dark:checked:bg-indigo-600 dark:checked:border-transparent dark:checked:focus:border-transparent dark:focus:ring-offset-gray-800 dark:focus:ring-offset-2 dark:focus:ring-indigo-500">
-                    <label for="latino" class="ml-2 block text-sm text-gray-900 dark:text-gray-100">{{ __('Latino') }}</label>
-                </div>
+                @foreach ($danceStyles as $style)
+                    <div class="flex items-center">
+                        <input id="{{ $style->id }}" name="danceStyles[]" type="checkbox" value="{{ $style->id }}" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-gray-700 dark:text-indigo-400 dark:bg-gray-900 dark:checked:bg-indigo-600 dark:checked:border-transparent dark:checked:focus:border-transparent dark:focus:ring-offset-gray-800 dark:focus:ring-offset-2 dark:focus:ring-indigo-500">
+                        <label for="{{ $style->id }}" class="ml-2 block text-sm text-gray-900 dark:text-gray-100">{{ __($style->name) }}</label>
+                    </div>
+                @endforeach
+            </div>
         </fieldset>
+
         <x-input-error class="mt-2" :messages="$errors->get('danceStyles')" />
 
-
-        {{-- <div>
-            <x-input-label for="danceStyles" :value="__('Style tańca')" />
-            <select id="danceStyles" name="danceStyles[]" multiple class="mt-1 block w-full">
-                <option value="hip-hop">Hip-hop</option>
-                <option value="disco-dance">Disco Dance</option>
-                <option value="nowoczesny">Taniec nowoczesny</option>
-                <option value="jazz">Jazz</option>
-                <option value="balet">Balet</option>
-                <option value="open">Open</option>
-                <option value="latino">Latino</option>
-            </select>
-            <x-input-error class="mt-2" :messages="$errors->get('danceStyles')" />
-        </div> --}}
 
         
         <div class="flex items-center gap-4">

@@ -19,10 +19,16 @@ class Tournament extends Model
         'fromAge',
         'toAge',
         'user_id',
+        'type',
     ];
 
     public function participants()
     {
         return $this->hasMany(TournamentParticipant::class);
+    }
+
+    public function danceStyles()
+    {
+        return $this->belongsToMany(DanceStyle::class, 'dance_style_tournament');
     }
 }

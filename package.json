@@ -25,7 +25,11 @@
         "webpack": "^5.89.0"
     },
     "dependencies": {
+        "@fullcalendar/core": "^6.1.10",
+        "@fullcalendar/daygrid": "^6.1.10",
+        "@fullcalendar/interaction": "^6.1.10",
         "flatpickr": "^4.6.13",
-        "flowbite": "^2.2.1"
+        "flowbite": "^2.2.1",
+        "fullcalendar": "^6.1.10"
     }
 }

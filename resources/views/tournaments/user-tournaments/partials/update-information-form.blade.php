@@ -72,6 +72,42 @@
                 class="mt-1 p-2 border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-md w-full">
         </div>
 
+        <div class="mb-4">
+            <label for="danceStyles" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                {{ __('Style tańca') }}
+            </label>
+            <div class="mt-1 grid grid-cols-2 gap-2" id="danceStylesContainer">
+                @foreach($allDanceStyles as $style)
+                    @php
+                        $isChecked = $tournament->danceStyles->contains('id', $style->id);
+                    @endphp
+                    <label class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-gray-500/10 cursor-pointer dance-style-checkbox">
+                        <input type="checkbox" name="danceStyles[]" value="{{ $style->id }}" class="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" {{ $isChecked ? 'checked' : '' }}>
+                        <span class="ml-2">{{ $style->name }}</span>
+                    </label>
+                @endforeach
+            </div>
+        </div>
+        
+        
+
+        <div class="mb-4">
+            <label for="type" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                {{ __('Typ') }}
+            </label>
+            <div class="mt-1">
+                <label class="inline-flex items-center">
+                    <input type="radio" name="type" value="solowe" class="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" {{ $tournament->type === 'solowe' ? 'checked' : '' }}>
+                    <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Solowe</span>
+                </label>
+                <label class="inline-flex items-center ml-6">
+                    <input type="radio" name="type" value="grupowe" class="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" {{ $tournament->type === 'grupowe' ? 'checked' : '' }}>
+                    <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Grupowe</span>
+                </label>
+            </div>
+        </div>
+        
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Zapisz') }}</x-primary-button>
 
@@ -85,5 +121,6 @@
                 >{{ __('Zapisano.') }}</p>
             @endif
         </div>
+
     </form>
 </section>

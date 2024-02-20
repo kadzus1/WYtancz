@@ -67,6 +67,18 @@
             <x-input-error :messages="$errors->get('country')" class="mt-2" />
         </div>
 
+        {{-- Dance Style --}}
+        <div>
+            <x-input-label :value="__('Styl tańca')" />
+            <select class="block mt-1 w-full" name="dance_style[]">
+                <option value="" selected disabled>Wybierz styl tańca</option>
+                @foreach($tournament->danceStyles as $index => $style)
+                    <option value="{{ $style->id }}">{{ $style->name }}</option>
+                @endforeach
+            </select>
+            <x-input-error :messages="$errors->get('danceStyle')" class="mt-2" />
+        <br>
+
 
         <br>
 
@@ -117,7 +129,7 @@
         
 
 
-    </form>
+   
 
     <script>
          function calculateAge() {
@@ -178,5 +190,5 @@
 
 
     </script>
-
+ </form>
 </x-guest-layout>

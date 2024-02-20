@@ -72,6 +72,23 @@
             <input type="text" name="date" id="date" value="{{ $tournament->date }}" readonly
                 class="mt-1 p-2 border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-md w-full">
         </div>
+
+        <div class="mb-4">
+            <label for="danceStyle" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                {{ __('Style tańca') }}
+            </label>
+            <input type="text" name="danceStyle" id="danceStyle" value="{{ implode(', ', $tournament->danceStyles->pluck('name')->toArray()) }}" readonly
+                class="mt-1 p-2 border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-md w-full">
+        </div>
+        
+
+        <div class="mb-4">
+            <label for="type" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                {{ __('Typ') }}
+            </label>
+            <input type="text" name="type" id="type" value="{{ $tournament->type }}" readonly
+                class="mt-1 p-2 border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-md w-full">
+        </div>
         
     </form>
 </section>

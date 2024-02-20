@@ -1,15 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Strona główna</title>
 
     <link rel="icon" type="image/x-icon" href="{{ asset('storage/css/images/icon.png') }}">
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.2.2/dist/flowbite.min.css" rel="stylesheet">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('storage/css/main1.css') }}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+
+
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+
+ 
+    
+
 </head>
 <body class="homepage is-preload">
     <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
@@ -48,14 +54,8 @@
                 <!-- Nav -->
                 <nav id="nav">
                     <ul>
-                        <li>
-                            <a href="#" class="icon solid fa-home"><span>O projekcie</span></a>
-                            <ul>
-                                <li><a href="{{ url('subpage/creators') }}">Twórcy</a></li>
-                                <li><a href="{{ url('subpage/idea') }}">Idea</a></li>
-                            </ul>
-                        </li>
-                        <li><a class="icon solid fa-calendar" href="{{ url('events') }}"><span>Blog</span></a></li>
+                        <li><a href="{{ route('creators') }}" class="icon solid fa-comment"><span>Twórcy</span></a> </li>
+                        <li><a class="icon brands fa-blogger-b" href="{{ route('blog') }}"><span>Blog</span></a></li>
                         <li>
                             <a class="icon solid fa-trophy" href="{{ route('tournaments.tournament') }}">
                                 <span>Turnieje</span>
@@ -68,6 +68,8 @@
 
     
 @yield('content')
+
+
 
         <!-- Banner -->
         <section id="banner">
@@ -140,6 +142,8 @@
             </div>
         </section>
 
+        
+
     </div>
 
     <!-- Scripts -->
@@ -149,6 +153,7 @@
     <script src="{{ asset('assets/js/breakpoints.min.js') }}"></script>
     <script src="{{ asset('assets/js/util.js') }}"></script>
     <script src="{{ asset('assets/js/main.js') }}"></script>
+    
 
 </body>
 </html>

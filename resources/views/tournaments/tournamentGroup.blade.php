@@ -36,33 +36,33 @@
         <table class="w-full min-w-full divide-y divide-gray-200 dark:divide-gray-600 dark:border-gray-600">
             <thead class="bg-gray-50 dark:bg-gray-700">
                 <tr>
-                    <th scope="col" class="py-3 px-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Nazwa Turnieju
                     </th>
-                    <th scope="col" class="py-3 px-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Zakres wieku: od
                     </th>
-                    <th scope="col" class="py-3 px-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Zakres wieku: do
                     </th>
-                    <th scope="col" class="py-3 px-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Data
                     </th>
-                    <th scope="col" class="py-3 px-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Liczba osób
                     </th>
-                    <th scope="col" class="py-3 px-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Miejsce
                     </th>
-                    <th scope="col" class="py-3 px-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Style tańca
                     </th>
-                    <th scope="col" class="py-3 px-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Szczegóły
+                    <th scope="col" class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Operacje
                     </th>
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-600 dark:border-gray-600 text-center">
+            <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-600 dark:border-gray-600 ">
                 @foreach($tournaments as $tournament)
                     <tr>
                         <td class="py-4 px-6 text-sm font-medium text-gray-900 dark:text-gray-100">
@@ -74,7 +74,7 @@
                         <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300">
                             {{ $tournament->toAge }}
                         </td>
-                        <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300 ">
+                        <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300">
                             {{ $tournament->date }}
                         </td>
                         <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300">
@@ -89,7 +89,7 @@
                             @endforeach
                         </td>
                         <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300 flex items-center justify-center">
-                            <form method="GET" action="{{ route('tournaments.more', ['id' => $tournament->id]) }}" >
+                            <form method="GET" action="{{ route('tournaments.more', ['id' => $tournament->id]) }}">
                                 @csrf
                                 <button type="submit">
                                     <i class="fas fa-info-circle"></i> Szczegóły
@@ -104,10 +104,5 @@
             {{ $tournaments->links() }}
         </div>
     @endif
-    
-    
 </div>
-
-
-
 @endsection

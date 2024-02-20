@@ -2,48 +2,95 @@
 
 namespace App\Http\Controllers;
 use App\Models\Tournament;
-use App\Models\Role;
+use App\Models\Team;
 use App\Models\TournamentParticipant;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\DanceStyle;
+
+
 
 class TournamentController extends Controller
 {
     public function tournament()
     {
         // Pobierz dane z tabeli 'tournament'
-        $tournaments = Tournament::all();
-
+        $tournaments = Tournament::where('type', 'solowe')->paginate(5);
+    
+        // Inicjalizuj zmienną $danceStyles jako pustą tablicę
+        $danceStyles = [];
+    
+        // Iteruj przez każdy turniej i zbierz jego style tańca, jeśli są zapisy
+        foreach ($tournaments as $tournament) {
+            if ($tournament->danceStyles()->exists()) {
+                $danceStyles[$tournament->id] = $tournament->danceStyles()->pluck('name');
+            }
+        }
+    
         // Przekaz dane do widoku
-        return view('tournaments.tournament', ['tournaments' => $tournaments]);
+        return view('tournaments.tournament', compact('tournaments', 'danceStyles'));
     }
+    
+
+    public function tournamentGroup()
+{
+    // Pobierz turnieje
+    $tournaments = Tournament::where('type', 'grupowe')->paginate(5);
+
+    // Inicjalizuj zmienną $danceStyles jako pustą tablicę
+    $danceStyles = [];
+    
+    // Iteruj przez każdy turniej i zbierz jego style tańca, jeśli są zapisy
+    foreach ($tournaments as $tournament) {
+        if ($tournament->danceStyles()->exists()) {
+            $danceStyles[$tournament->id] = $tournament->danceStyles()->pluck('name');
+        }
+    }
+
+    // Przekazanie danych do widoku
+    return view('tournaments.tournamentGroup', compact('tournaments', 'danceStyles'));
+}
+
 
     public function alltournament()
     {
         // Pobierz dane z tabeli 'tournament'
-        $tournaments = Tournament::all();
+        $tournaments = Tournament::paginate(10);;
 
         // Przekaz dane do widoku
         return view('tournaments.user-tournaments.admin.alltournaments', ['tournaments' => $tournaments]);
     }
 
     public function moretournament($id)
-    {
-        // Pobierz dane z tabeli 'tournament'
-        $tournament = Tournament::findOrFail($id);
+{
+    // Pobierz dane z tabeli 'tournament'
+    $tournament = Tournament::findOrFail($id);
 
-        // Przekaz dane do widoku
-        return view('tournaments.more', compact('tournament'));
-    }
+    // Pobierz przypisane do turnieju style tańca
+    $danceStyles = $tournament->danceStyles()->pluck('name');
+
+     // Sprawdź role aktualnie zalogowanego użytkownika
+    $userRoles = auth()->user()->roles()->pluck('name'); // Pobierz nazwy ról użytkownika
+
+
+    // Przekaz dane do widoku, w tym zmienną $isDancer
+    return view('tournaments.more', compact('tournament', 'danceStyles', 'userRoles'));
+}
+
 
     public function create()
     {
-        return view('tournaments.addtournament');
+        //tutaj pobieramy style dańca
+        $danceStyles = DanceStyle::all();
+        return view('tournaments.addtournament', compact('danceStyles'));
     }
 
     public function store(Request $request)
-{
+    {
+    
+    //tu walidacja danceStyles
+    $validatedData['danceStyles'] = $request->input('danceStyles');
+
     $validatedData = $request->validate([
         'name' => 'required',
         'description' => 'required',
@@ -52,17 +99,20 @@ class TournamentController extends Controller
         'place' => 'required',
         'fromAge' => 'required|numeric|min:1',
         'toAge' => 'required|numeric|min:' . $request->fromAge,
+        'type' => 'required',
         'user_id' => 'required',
         'danceStyles' => 'array|required',
         'danceStyles.*' => 'exists:dance_styles,id', // sprawdzenie, czy wybrane style tańca istnieją w bazie danych
    
     ]);
 
+
     // Przypisanie ID zalogowanego użytkownika do pola 'user_id'
     $validatedData['user_id'] = auth()->id();
 
     // Przypisanie nazwy zalogowanego użytkownika do pola 'organizator'
     $validatedData['organizator'] = auth()->user()->name;
+    
 
     // Zapisanie danych do bazy danych i przypisanie nowego turnieju do zmiennej $tournament
     $tournament = Tournament::create($validatedData);
@@ -114,6 +164,7 @@ public function joinEventDancer(Request $request, $id)
             'teacherPhoneNumber' => isset($request->input('teacherPhoneNumber')[$key]) ? $request->input('teacherPhoneNumber')[$key] : null,
             'tournament_id' => $id,
             'user_id' => $user_id,
+            'dance_style_id' => $request->input('dance_style')[$key],
         ];
     }
 
@@ -143,12 +194,14 @@ public function joinEventSchool(Request $request, $id)
                 'age' => $request->input('age.' . $key),
                 'town' => $request->input('town.' . $key),
                 'country' => $request->input('country.' . $key),
+                'dance_style_id' => $request->input('dance_style.' . $key),
                 'organizator' => $request->has('organizator') && isset($request->input('organizator')[0]) ? $request->input('organizator')[0] : null,
                 'teacherName' => $request->has('teacherName') && isset($request->input('teacherName')[0]) ? $request->input('teacherName')[0] : null,
                 'teacherSurname' => $request->has('teacherSurname') && isset($request->input('teacherSurname')[0]) ? $request->input('teacherSurname')[0] : null,
                 'teacherPhoneNumber' => $request->has('teacherPhoneNumber') && isset($request->input('teacherPhoneNumber')[0]) ? $request->input('teacherPhoneNumber')[0] : null,
                 'tournament_id' => $id,
                 'user_id' => $user_id,
+                
             ];
         }
     }
@@ -212,6 +265,7 @@ public function startList($tournamentId)
     return view('tournaments.more.startList', ['tournament' => $tournament, 'participants' => $participants]);
 }
 
+
     public function getStatus($tournamentId)
     {
         $tournament = Tournament::findOrFail($tournamentId);
@@ -249,5 +303,28 @@ public function startList($tournamentId)
     return back()->with('success', 'Uczestnik został pomyślnie usunięty.');
 }
 
+
+//Dla fullcalendar
+public function getTournamentDates()
+    {
+       // Pobierz daty turniejów z tabeli 'tournaments'
+       $tournaments = Tournament::all();
+
+       // Utwórz tablicę zdarzeń kalendarza
+       $events = [];
+       foreach ($tournaments as $tournament) {
+           $events[] = [
+               'title' => $tournament->name,
+               'start' => $tournament->date, // Data rozpoczęcia turnieju
+           ];
+       }
+
+       // Zwróć widok z przekazaniem danych
+       return view('welcome', compact('events'));
+
+    }
+
+
+    
 
 }

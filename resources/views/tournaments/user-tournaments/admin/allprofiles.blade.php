@@ -14,7 +14,6 @@
 </div>
 @endif
 
-
 <div class="max-w-7xl w-3/4 mx-auto py-6 px-4 sm:px-6 lg:px-8 dark:text-white ">
     @if($profiles->isEmpty())
         <div class="flex items-center justify-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md my-4">
@@ -27,37 +26,50 @@
                     <th scope="col" class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Nazwa użytkownika
                     </th>
-                    {{-- <th scope="col" class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Rola
+                    </th>
+                    <th scope="col" class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Operacje
-                    </th> --}}
+                    </th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-600 dark:border-gray-600">
                 @foreach($profiles as $profile)
-                    <tr>
-                        <td class="py-4 px-6 text-sm font-medium text-gray-900 dark:text-gray-100">
-                            {{ $profile->name }}
-                        </td>
-                       
-                            {{-- <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300 flex items-center">
-                                <a href="{{ route('tournaments.user-tournaments.edit-tournament', $tournament->id) }}" class="text-blue-500 hover:underline" title="Edytuj"><i class="fas fa-pencil-alt"></i></a>
-                                <span class="ml-2 mr-2">     |     </span>
-                                <form method="post" action="{{ route('tournaments.user-tournaments.destroy', $tournament->id) }}">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit"><i class="fas fa-dumpster"></i></button>
-                                </form>
-                            </td> --}}
-                    </tr>
-                @endforeach
+                <tr>
+                    <td class="py-4 px-6 text-sm font-medium text-gray-900 dark:text-gray-100">
+                        {{ $profile->name }}
+                    </td>
+                    <td class="py-4 px-6 text-sm font-medium text-gray-900 dark:text-gray-100">
+                        @foreach($profile->roles as $role)
+                            {{ $role->name }}
+                        @endforeach
+                    </td>
+                    <td class="py-4 px-6 text-sm font-medium text-gray-900 dark:text-gray-100">
+                        @if(auth()->user()->hasRole('administrator') && $profile->id !== auth()->id())
+                            <form method="post" action="{{ route('updateUserRole', $profile->id) }}">
+                                @csrf
+                                @method('PUT')
+                                <select name="role" id="role" class="block w-full mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
+                                    @foreach($roles as $role)
+                                        <option value="{{ $role->id }}" {{ $profile->role && $profile->role->id === $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
+                                    @endforeach
+                                </select>
+                                <button type="submit" class="text-indigo-500">Zapisz</button>
+                            </form>
+                        @else
+                            Brak uprawnień do edycji
+                        @endif
+                    </td>
+                </tr>
+            @endforeach
+            
             </tbody>
         </table>
-        {{-- <x-modal name="confirm-tournament-deletion-{{ $tournament->id }}" :show="$errors->userDeletion->isNotEmpty()" focusable>
-            Usunięto turniej.
-        </x-modal> --}}
+        <div class="mt-4">
+            {{ $profiles->links() }}
+        </div>
     @endif
 </div>
-
-
 
 @endsection

@@ -69,6 +69,9 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="mt-4">
+            {{ $tournaments->links() }}
+        </div>
         <x-modal name="confirm-tournament-deletion-{{ $tournament->id }}" :show="$errors->userDeletion->isNotEmpty()" focusable>
             Usunięto turniej.
         </x-modal>

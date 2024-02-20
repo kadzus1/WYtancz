@@ -70,7 +70,6 @@
                 </td>
                 @if(auth()->check() && $tournament->user_id === auth()->id())
                 <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300">
-                    @if(auth()->check() && $tournament->user_id === auth()->id())
                 <form method="post" action="{{ route('removeParticipant', ['id' => $participant->id]) }}">
             @csrf
             @method('delete') <!-- Dodajemy metodę delete -->
@@ -78,9 +77,8 @@
                 <i class="fas fa-user-times"></i>
             </button>
         </form>
-    </td>
+    </td> 
     @endif
-@endif
 
                 </td>
             </tr>

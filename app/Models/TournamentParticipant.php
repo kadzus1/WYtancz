@@ -23,6 +23,7 @@ class TournamentParticipant extends Model
         'teacherName',
         'teacherSurname',
         'teacherPhoneNumber',
+        'dance_style_id',
 
 
     ];
@@ -38,5 +39,10 @@ class TournamentParticipant extends Model
     public function tournament()
     {
         return $this->belongsTo(Tournament::class);
+    }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,10 +19,10 @@ class ProfileController extends Controller
 
      public function show(Request $request): View
      {
-         $profiles = User::all();
-
-         // Przekaz dane do widoku
-         return view('tournaments.user-tournaments.admin.allprofiles', ['profiles' => $profiles]);
+         $profiles = User::paginate(3);
+         $roles = Role::all();
+ 
+         return view('tournaments.user-tournaments.admin.allprofiles', compact('profiles', 'roles'));
      }
 
     public function edit(Request $request): View
@@ -66,5 +67,25 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function updateUserRole(Request $request, $id): RedirectResponse
+    {
+        // Validate request
+        $request->validate([
+            'role' => 'required|exists:roles,id',
+        ]);
+
+        // Find user by ID
+        $user = User::findOrFail($id);
+
+        // Find role by ID
+        $role = Role::findOrFail($request->role);
+
+        // Assign the role to the user
+        $user->syncRoles([$role->name]);
+
+        // Redirect back with success message
+        return back()->with('success', 'Rola użytkownika została pomyślnie zaktualizowana.');
     }
 }

@@ -18,14 +18,29 @@
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('tournaments.tournament')" :active="request()->routeIs('tournament')">
-                        {{ __('Turnieje') }}
+                        {{ __('Turnieje solowe') }}
                     </x-nav-link>
                 </div>
+
+                @if (auth()->user()->hasRole('szkola_tanca') || auth()->user()->hasRole('administrator'))
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('tournaments.tournamentGroup')" :active="request()->routeIs('tournaments.tournamentGroup')">
+                        {{ __('Turnieje zespołowe') }}
+                    </x-nav-link>
+                </div>
+                @endif
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('blog')" :active="request()->routeIs('blog')">
+                        {{ __('Blog') }}
+                    </x-nav-link>
+                </div>
+
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <x-dropdown align="right" width="48">
+                <x-dropdown width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
                             <div>{{ Auth::user()->name }}</div>
@@ -37,17 +52,17 @@
                             </div>
                         </button>
                     @if (auth()->user()->hasRole('administrator'))
-                        <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+                        <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">
                             {{ __("Administrator") }}
                         </span>
                     @endif
                     @if (auth()->user()->hasRole('tancerz'))
-                    <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
+                    <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">
                         {{ __("Tancerz") }}
                     </span>
                 @endif
                 @if (auth()->user()->hasRole('szkola_tanca'))
-                <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
+                <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">
                     {{ __("Szkoła tańca") }}
                 </span>
             @endif
@@ -66,12 +81,7 @@
                         </span> @endif
 
 
-                    @if (auth()->user()->hasRole('tancerz'))    
-                            {{-- Tournaments --}}
-                    <x-dropdown-link :href="route('tournaments.user-tournaments.usertournaments')">
-                        {{ __('Moje turnieje') }}
-                    </x-dropdown-link>@endif
-                    @if (auth()->user()->hasRole('szkola_tanca'))    
+                    @if (auth()->user()->hasRole('tancerz') || auth()->user()->hasRole('szkola_tanca'))    
                             {{-- Tournaments --}}
                     <x-dropdown-link :href="route('tournaments.user-tournaments.usertournaments')">
                         {{ __('Moje turnieje') }}

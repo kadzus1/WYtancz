@@ -3,10 +3,10 @@
 <html>
 	<head>
 		<title>WYtańcz</title>
-		<link rel="icon" type="image/x-icon" href="{{asset('css/images/icon.png')}}">
+		<link rel="icon" type="image/x-icon" href="{{ asset('storage/css/images/icon.png') }}">
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="{{asset('storage/css/main.css')}}" />
+		<link rel="stylesheet" href="{{asset('storage/css/main.css')}}" /> 	
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 		
 	</head>

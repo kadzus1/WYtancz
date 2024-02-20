@@ -1,6 +1,20 @@
 @extends('layouts.header')
 
 @section('content')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      Boolean, default: true,
+      contentHeight: 500,
+      locale: 'pl',
+      events: <?php echo json_encode($events); ?>,
+    });
+    calendar.updateSize()
+    calendar.render();
+  });
+</script>
 <section id="features">
     <div class="container">
         <header>
@@ -10,7 +24,7 @@
             <!-- Feature 1 -->
             <div class="col-4 col-6-medium col-12-small">
                 <section>
-                    <a href="#" class="image featured"><img src="{{ asset('assets/css/images/ballerina.jpg') }}" alt="" /></a>
+                    <a href="#" class="image featured"><img src="{{ asset('storage/css/images/ballerina.jpg') }}" alt="" /></a>
                     <header>
                         <h3>Ciekawostki o balecie</h3>
                     </header>
@@ -20,7 +34,7 @@
             <!-- Feature 2 -->
             <div class="col-4 col-6-medium col-12-small">
                 <section>
-                    <a href="#" class="image featured"><img src="{{ asset('assets/css/images/bidon.jpg') }}" alt="" /></a>
+                    <a href="#" class="image featured"><img src="{{ asset('storage/css/images/bidon.jpg') }}" alt="" /></a>
                     <header>
                         <h3>Nowe bidony już w sprzedaży!</h3>
                     </header>
@@ -30,7 +44,7 @@
             <!-- Feature 3 -->
             <div class="col-4 col-6-medium col-12-small">
                 <section>
-                    <a href="#" class="image featured"><img src="{{ asset('assets/css/images/koncert.jpg') }}" alt="" /></a>
+                    <a href="#" class="image featured"><img src="{{ asset('storage/css/images/koncert.jpg') }}" alt="" /></a>
                     <header>
                         <h3>Koncert Noworoczny 2023</h3>
                     </header>
@@ -40,5 +54,13 @@
         </div>
     </div>
 </section>
+
+
+<div>
+    <section >
+        <div id='calendar'></div>
+    </section>
+</div><br><br>
+
 
 @endsection

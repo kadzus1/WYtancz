@@ -9,7 +9,7 @@
         <title>{{ config('app.name', 'WYtańcz') }}</title>
 
         <link rel="icon" type="image/x-icon" href="{{ asset('storage/css/images/icon.png') }}">
-
+        
      
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -21,8 +21,8 @@
         <script src="/js/app.js"></script>
     </head>
     <body class="font-sans text-gray-900 antialiased">
-        <a href="{{ route('tournaments.tournament') }}" class="back-link ml-2">
-            <i class="fas fa-arrow-left"></i> Powrót do turniejów
+        <a href="{{ route('welcome') }}" class="back-link ml-2">
+            <i class="fas fa-arrow-left"></i> Powrót do strony głównej
         </a>
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-white ">
             
