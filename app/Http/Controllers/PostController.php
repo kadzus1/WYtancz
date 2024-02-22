@@ -34,12 +34,11 @@ class PostController extends Controller
         'image' => 'image|mimes:jpeg,png,jpg,gif', // przykładowa walidacja dla zdjęcia
     ]);
 
-    // Zapisanie danych obrazka do bazy danych
-if ($request->hasFile('image')) {
-    $image = $request->file('image');
-    $imageData = file_get_contents($image->getRealPath());
-    $validatedData['image'] = $imageData;
-}
+    // Zapisanie ścieżki obrazka do bazy danych
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('public/images');
+        $validatedData['image'] = $imagePath;
+    }
 
 
     // Przypisanie ID zalogowanego użytkownika do pola 'user_id'
@@ -51,5 +50,21 @@ if ($request->hasFile('image')) {
     return redirect()->route('blog')->with('success', 'Post został pomyślnie dodany.');
 }
 
+public function userPosts()
+    {
+        // Pobierz obecnie zalogowanego użytkownika
+        $user = Auth::user();
 
+        // Pobierz posty dodane przez obecnego użytkownika
+        $posts = $user->posts;
+
+        return view('subpage.user-posts.userposts', compact('posts'));
+    }
+
+    public function edit($id)
+    {
+        $post = Post::findOrFail($id);
+        return view('subpage.user-posts.edit-post', compact('post'));
+    }
+    
 }

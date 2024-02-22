@@ -57,10 +57,10 @@
                         </span>
                     @endif
                     @if (auth()->user()->hasRole('tancerz'))
-                    <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">
-                        {{ __("Tancerz") }}
-                    </span>
-                @endif
+                        <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">
+                            {{ __("Tancerz") }}
+                        </span>
+                    @endif
                 @if (auth()->user()->hasRole('szkola_tanca'))
                 <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">
                     {{ __("Szkoła tańca") }}
@@ -93,6 +93,10 @@
                         {{ __('Wszystkie turnieje') }}
                     </x-dropdown-link>
                     </span> @endif
+
+                    <x-dropdown-link :href="route('userPosts')">
+                            {{ __('Posty') }}
+                        </x-dropdown-link>
 
                     
 

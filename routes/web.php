@@ -110,6 +110,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/subpage/blog/create', [PostController::class, 'create'])->name('create-post');
     Route::post('/subpage/blog', [PostController::class, 'store'])->name('store-post');
 
+    //Zarządzanie własnymi postami
+    Route::get('/subpage/user-posts/', [PostController::class, 'userPosts'])->name('userPosts');
+    Route::get('/subpage/user-posts/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
+Route::patch('/subpage/{post}/update', [PostController::class, 'update'])->name('subpage.user-posts.update');
+Route::delete('/subpage/user-posts/{post}', [PostController::class, 'destroy'])->name('post.destroy');
+
 });
 
 require __DIR__.'/auth.php';

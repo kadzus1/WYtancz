@@ -5,9 +5,6 @@
 @endif
 
 <x-guest-layout>
-    
-    
-
     <div class="text-center mt-10">
         <h2 class="text-l font-bold mb-4">Rejestrujesz się na wydarzenie</h2>
         <h2 class="text-2xl font-bold mb-4">{{ $tournament->name }}</h2>
@@ -15,57 +12,62 @@
     
     <form method="POST" action="{{ route('tournaments.joinEventSchool', ['id' => $tournament->id]) }}">
         @csrf
-    
-
-
 
         <div class="text-center mt-4">
-            <button type="button" onclick="addDancerForm()" class="py-2.5 px-5 text-red-700 me-2 mb-2 text-sm font-medium  focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+            <button type="button" onclick="addDancerForm()" class="py-2.5 px-5 text-red-700 me-2 mb-2 text-sm font-medium focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                 <i class="fas fa-plus-circle mr-2"></i>Dodaj tancerza
             </button>
         </div>
-    
+
         <!-- Kontener na tancerzy -->
         <div id="dancerContainer" class="mt-4">
             <!-- Początkowa sekcja dla pierwszego tancerza -->
             <div class="hidden dancerSection">
                 <!-- Rozdzielnik z liczbą tancerzy -->
-                <br><div class="text-center text-l font-medium mb-2 text-gray-900">
+                <br>
+                <div class="text-center text-l font-medium mb-2 text-gray-900">
                     Tancerz <span id="dancerCount">1</span>
-                    <hr class="my-2 ">
+                    <hr class="my-2">
                 </div>
 
                 <div>
                     <x-input-label :value="__('Imię')" />
-                    <x-text-input class="block mt-1 w-full" type="text" name="p_name[]"   />
+                    <x-text-input class="block mt-1 w-full" type="text" name="p_name[]" />
                     <x-input-error :messages="$errors->get('p_name')" class="mt-2" />
                 </div>
     
                 <div>
                     <x-input-label :value="__('Nazwisko')" />
-                    <x-text-input class="block mt-1 w-full" type="text" name="p_surname[]"   />
+                    <x-text-input class="block mt-1 w-full" type="text" name="p_surname[]" />
                     <x-input-error :messages="$errors->get('p_surname')" class="mt-2" />
                 </div>
+                {{-- Dance Style --}}
+                <div>
+                    <x-input-label :value="__('Styl tańca')" />
+                    <select class="block mt-1 w-full" name="dance_style[]">
+                        <option value="" selected disabled>Wybierz styl tańca</option>
+                        @foreach($tournament->danceStyles as $index => $style)
+                            <option value="{{ $style->id }}">{{ $style->name }}</option>
+                        @endforeach
+                    </select>
+                    <x-input-error :messages="$errors->get('dance_style')" class="mt-2" />
+                </div>
     
-                  <!-- Birth date -->
-         <div>
-            <x-input-label for="birthDate" :value="__('Data urodzenia')" />
-            <input type="date" id="birthDate" name="birthDate[]" class="mt-1 block w-full" oninput="calculateAge()" max="{{ date('Y-m-d') }}"/>
-            <x-input-error class="mt-2" :messages="$errors->get('birthDate')" />
-        </div>
+                <!-- Birth date -->
+                <div>
+                    <x-input-label for="birthDate" :value="__('Data urodzenia')" />
+                    <input type="date" class="mt-1 block w-full" name="birthDate[]" onchange="calculateAge(this)" max="{{ date('Y-m-d') }}"/>
+                    <x-input-error class="mt-2" :messages="$errors->get('birthDate')" />
+                </div>
 
-        <br>
-         <!-- Age -->
-         <div>
-            <x-input-label for="age" :value="__('Wiek')" />
-            <input type="text" id="age" name="age[]" readonly/><br>
-            <label id="ageErrorMessage" class="text-red-500 hidden"></label>
-            <x-input-error class="mt-2" :messages="$errors->get('age')" />
-        </div>
+                <!-- Age -->
+                <div>
+                    <x-input-label for="age" :value="__('Wiek')" />
+                    <input type="text" id="age" name="age[]" readonly/><br>
+                    <label id="ageErrorMessage" class="text-red-500 hidden"></label>
+                    <x-input-error class="mt-2" :messages="$errors->get('age')" />
+                </div>
 
-
-
-                <br>
                 {{-- Town --}}
                 <div>
                     <x-input-label :value="__('Miasto')" />
@@ -73,7 +75,6 @@
                     <x-input-error :messages="$errors->get('town')" class="mt-2" />
                 </div>
 
-                <br>
                 {{-- Country --}}
                 <div>
                     <x-input-label :value="__('Państwo')" />
@@ -81,29 +82,13 @@
                     <x-input-error :messages="$errors->get('country')" class="mt-2" />
                 </div>
 
-                <br>
-
-                {{-- Dance Style --}}
-            <div>
-                <x-input-label :value="__('Styl tańca')" />
-                <select class="block mt-1 w-full" name="dance_style[]"">
-                    <option value="" selected disabled>Wybierz styl tańca</option>
-                    @foreach($tournament->danceStyles as $index => $style)
-                        <option value="{{ $style->id }}">{{ $style->name }}</option>
-                    @endforeach
-                </select>
-                <x-input-error :messages="$errors->get('dance_style')" class="mt-2" />
-            </div>
-            <br>
-
-
+                
             </div>
         </div>
 
-
-
         <!-- Dodaj dane instruktora (przełącznik) -->
-        <br><div class="mb-4">
+        <br>
+        <div class="mb-4">
             <input type="checkbox" id="addInstructor" name="addInstructor" class="form-checkbox h-5 w-5 text-red-700"/>
             <label for="addInstructor" class="ml-2 text-red-700 cursor-pointer">Dodaj dane instruktora</label>
         </div>
@@ -137,70 +122,71 @@
         </div>
         <br>
 
+        <!-- Przycisk zapisu -->
+        <div class="text-center mt-4">
+            <button id="saveButton" class="py-2.5 px-5 text-red-700 me-2 mb-2 text-sm font-medium focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                <i class="fas fa-floppy-disk mr-2"></i>Zapisz dane
+            </button>
+        </div>
 
-       <!-- Przycisk zapisu -->
-
-    <div class="text-center mt-4">
-        <button id="saveButton" class="py-2.5 px-5 text-red-700 me-2 mb-2 text-sm font-medium focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-            <i class="fas fa-floppy-disk mr-2"></i>Zapisz dane
-        </button>
-    </div>
-
-    
         <script>
+            function calculateAge(input, dancerIndex) {
+    var birthDate = new Date(input.value);
+    var today = new Date();
+    var age = today.getFullYear() - birthDate.getFullYear();
 
-function calculateAge() {
-        var birthDate = new Date(document.getElementById('birthDate').value);
-        var today = new Date();
-        var age = today.getFullYear() - birthDate.getFullYear();
-
-        // Sprawdź, czy urodziny w tym roku już były
-        if (today.getMonth() < birthDate.getMonth() || (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
-            age--;
-        }
-
-        // Zapisz wiek do pola wieku
-        document.getElementById('age').value = age;
-
-        // Sprawdź, czy wiek mieści się w zakresie
-        var minAge = {{ $tournament->fromAge }};
-        var maxAge = {{ $tournament->toAge }};
-        if (age < minAge || age > maxAge) {
-            // Wiek nie mieści się w zakresie, wyświetl komunikat
-            document.getElementById('ageErrorMessage').innerText = 'Wiek nie mieści się w wymaganym zakresie (' + minAge + '-' + maxAge + ')';
-            document.getElementById('ageErrorMessage').classList.remove('hidden');
-            return false; // Zwróć false, aby uniemożliwić zapis danych
-        } else {
-            // Wiek mieści się w zakresie, ukryj komunikat
-            document.getElementById('ageErrorMessage').classList.add('hidden');
-            return true; // Zwróć true, aby umożliwić zapis danych
-        }
+    // Sprawdź, czy urodziny w tym roku już były
+    if (today.getMonth() < birthDate.getMonth() || (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
+        age--;
     }
 
-    document.getElementById('saveButton').addEventListener('click', function (event) {
-        // Sprawdź wiek przed zapisem danych
-        if (!calculateAge()) {
-            // Jeśli wiek nie jest w odpowiednim zakresie, przerwij zapis danych
-            event.preventDefault();
-        }
-    });
- 
-function addDancerForm() {
+    // Zapisz wiek do pola wieku
+    document.getElementsByName('age[]')[dancerIndex].value = age;
+
+    // Sprawdź, czy wiek mieści się w zakresie
+    var minAge = {{ $tournament->fromAge }};
+    var maxAge = {{ $tournament->toAge }};
+    if (age < minAge || age > maxAge) {
+        // Wiek nie mieści się w zakresie, wyświetl komunikat
+        document.getElementById('ageErrorMessage').innerText = 'Wiek nie mieści się w wymaganym zakresie (' + minAge + '-' + maxAge + ')';
+        document.getElementById('ageErrorMessage').classList.remove('hidden');
+        return false; // Zwróć false, aby uniemożliwić zapis danych
+    } else {
+        // Wiek mieści się w zakresie, ukryj komunikat
+        document.getElementById('ageErrorMessage').classList.add('hidden');
+        return true; // Zwróć true, aby umożliwić zapis danych
+    }
+}
+
+
+            document.getElementById('saveButton').addEventListener('click', function (event) {
+                // Sprawdź wiek przed zapisem danych
+                var ageCheck = true;
+                document.getElementsByName('birthDate[]').forEach(function(input) {
+                    if (!calculateAge(input)) {
+                        // Jeśli wiek nie jest w odpowiednim zakresie, przerwij zapis danych
+                        ageCheck = false;
+                    }
+                });
+
+                if (!ageCheck) {
+                    event.preventDefault();
+                }
+            });
+
+            function addDancerForm() {
     var dancerContainer = document.getElementById('dancerContainer');
     var newDancerSection = dancerContainer.querySelector('.dancerSection').cloneNode(true);
-
-    // Zwiększenie liczby tancerzy
     var dancerCount = dancerContainer.children.length;
     document.getElementById('dancerCount').innerText = dancerCount + 1;
 
-    // Znajdź ostatni indeks w pętli foreach
-    var lastIndex = dancerCount - 1;
-
-    // Przekazanie indeksu do funkcji calculateAge()
-    newDancerSection.querySelector('#birthDate').setAttribute('onchange', 'calculateAge(this, ' + lastIndex + ')');
+    // Aktualizacja onchange dla pola daty urodzenia
+    var birthDateInput = newDancerSection.querySelector('[name="birthDate[]"]');
+    birthDateInput.setAttribute('onchange', 'calculateAge(this, ' + dancerCount + ')');
+    birthDateInput.setAttribute('id', 'birthDate_' + dancerCount);
 
     // Wyczyszczenie pól formularza w nowej sekcji
-    var inputs = newDancerSection.querySelectorAll('input');
+    var inputs = newDancerSection.querySelectorAll('input, select');
     inputs.forEach(function(input) {
         input.value = '';
     });
@@ -228,8 +214,9 @@ function addDancerForm() {
             document.getElementById('teacherPhoneNumber').setAttribute('disabled', 'disabled');
         }
     });
-}
 
+
+            }
         </script>
     </form>
 </x-guest-layout>

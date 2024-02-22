@@ -3,28 +3,31 @@
 @section('content')
 
 <section id="features">
-	<div class="container">
-		<header>
-			<h2><strong style="color: #7b0000;">BLOG</strong></h2>
-		</header>
+    <div class="container">
+        <header>
+            <h2><strong style="color: #7b0000;">BLOG</strong></h2>
+        </header>
 
-        @foreach ($posts as $post)
-        <div class="media mb-3">
-            @if ($post->image_path)
-            <div class="relative">
-                <img src="{{ asset('storage/' . $post->image_path) }}" class="object-cover w-48 h-48 rounded-lg" alt="{{ $post->title }}">
-                <div class="absolute bottom-2 left-0 bg-white px-2 py-1 rounded-lg shadow-md">
-                    <p class="text-xs text-gray-600">{{ $post->user->name }}</p>
-                    <p class="text-xs text-gray-600">{{ $post->created_at->format('d.m.Y H:i') }}</p>
+        <div class="row">
+            @foreach ($posts as $post)
+            <div class="col-md-4 mb-4">
+                <div class="media mb-3">
+                    @if ($post->image)
+                    <div class="relative" style="width:350px; height:350px">
+                        <img src="{{ Storage::url($post->image) }}" alt="Obraz" class="object-cover w-full h-full rounded-lg"> 
+                        <div class="absolute bottom-0 left-0 bg-white p-2 w-full text-center">
+                            <p class="font-bold">{{ $post->title }}</p>
+                            <p class="text-xs text-gray-600">{{ $post->content }}</p>
+                            <div class="flex justify-between mt-2">
+                                <p class="text-xs text-gray-600">{{ $post->user->name }}, {{ $post->created_at->format('d.m.Y H:i') }} </p>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
                 </div>
             </div>
-            @endif
-            <div class="media-body ml-3">
-                <h5 class="mt-0">{{ $post->title }}</h5>
-                <p>{{ $post->content }}</p>
-            </div>
+            @endforeach
         </div>
-        @endforeach
 
         @if ($posts->isEmpty())
             <p>Brak postów do wyświetlenia.</p>
@@ -37,12 +40,13 @@
                     Dodaj post
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 ml-2 text-red-800 ">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                        </svg>
-                    </a>
+                    </svg>
+                </a>
             </div>
         </div>
         @endauth
-	</div>
+    </div>
 </section>
+
 
 @endsection

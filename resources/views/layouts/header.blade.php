@@ -48,7 +48,7 @@
             <div class="container">
 
                 <!-- Logo -->
-                <h1 id="logo" style="color: #7b0000;"><a href="{{ url('index') }}">WYtańcz</a></h1>
+                <h1 id="logo" style="color: #7b0000;"><a href="{{ route('welcome') }}">WYtańcz</a></h1>
                 <p>Portal dla miłośników tańca.</p>
 
                 <!-- Nav -->
@@ -146,14 +146,6 @@
 
     </div>
 
-    <!-- Scripts -->
-    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/js/jquery.dropotron.min.js') }}"></script>
-    <script src="{{ asset('assets/js/browser.min.js') }}"></script>
-    <script src="{{ asset('assets/js/breakpoints.min.js') }}"></script>
-    <script src="{{ asset('assets/js/util.js') }}"></script>
-    <script src="{{ asset('assets/js/main.js') }}"></script>
-    
 
 </body>
 </html>
