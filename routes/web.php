@@ -66,6 +66,10 @@ Route::middleware('auth')->group(function () {
     // User tournaments
     Route::get('/tournaments/user-tournaments', [UserTournamentsController::class, 'usertournaments'])->name('tournaments.user-tournaments.usertournaments');
 
+    //Wyniki dla turnieju
+    Route::get('/tournaments/results/{tournamentId}', [TournamentController::class, 'results'])->name('tournaments.results');
+    Route::post('/tournaments/save-results', [TournamentController::class, 'save_results'])->name('save_results');
+
     //Admin tournament, profiles
     Route::get('/tournaments/user-tournaments/admin/alltournaments', [TournamentController::class, 'alltournament'])->name('tournaments.user-tournaments.admin.alltournaments');
     Route::get('/tournaments/user-tournaments/admin/allprofiles', [ProfileController::class, 'show'])->name('tournaments.user-tournaments.admin.allprofiles');

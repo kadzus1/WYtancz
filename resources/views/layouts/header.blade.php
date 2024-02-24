@@ -60,7 +60,12 @@
                             <a class="icon solid fa-trophy" href="{{ route('tournaments.tournament') }}">
                                 <span>Turnieje</span>
                             </a>
-                        </li></ul>
+                        </li>
+                        <li>
+                            <a href="#" class="fas fa-shopping-cart"><span>Sklep z odzieżą</span>
+                            </a>
+                        </li>
+                    </ul>
                 </nav>
 
             </div>

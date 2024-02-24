@@ -27,8 +27,9 @@
 </div>
 @endif
 
-<div class="max-w-7xl w-3/4 mx-auto py-3 px-4 sm:px-6 lg:px-8 mt-4 dark:text-white ">
-    @if($tournaments->isEmpty())
+<div class="max-w-7xl mx-auto py-3 px-4 sm:px-6 lg:px-8 mt-4 dark:text-white">
+    <h2 class="text-2xl font-bold mb-4">Nadchodzące wydarzenia</h2>
+    @if($upcomingEvents->isEmpty())
         <div class="flex items-center justify-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md my-4">
             <strong>Brak zaplanowanych wydarzeń.</strong>
         </div>
@@ -62,8 +63,8 @@
                     </th>
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-600 dark:border-gray-600 ">
-                @foreach($tournaments as $tournament)
+            <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-600 dark:border-gray-600">
+                @foreach($upcomingEvents as $tournament)
                     <tr>
                         <td class="py-4 px-6 text-sm font-medium text-gray-900 dark:text-gray-100">
                             {{ $tournament->name }}
@@ -101,8 +102,90 @@
             </tbody>
         </table>
         <div class="mt-4">
-            {{ $tournaments->links() }}
+            {{ $upcomingEvents->links() }}
+        </div>
+    @endif
+
+
+    <h2 class="text-2xl font-bold mb-4 mt-8">Archiwalne wydarzenia</h2>
+    @if($archivedEvents->isEmpty())
+        <div class="flex items-center justify-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md my-4">
+            <strong>Brak archiwalnych wydarzeń.</strong>
+        </div>
+    @else
+        <table class="w-full min-w-full divide-y divide-gray-200 dark:divide-gray-600 dark:border-gray-600">
+            <thead class="bg-gray-50 dark:bg-gray-700">
+                <tr>
+                    <th scope="col" class="py-3 px-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Nazwa Turnieju
+                    </th>
+                    <th scope="col" class="py-3 px-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Zakres wieku: od
+                    </th>
+                    <th scope="col" class="py-3 px-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Zakres wieku: do
+                    </th>
+                    <th scope="col" class="py-3 px-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Data
+                    </th>
+                    <th scope="col" class="py-3 px-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Liczba osób
+                    </th>
+                    <th scope="col" class="py-3 px-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Miejsce
+                    </th>
+                    <th scope="col" class="py-3 px-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Style tańca
+                    </th>
+                    <th scope="col" class="py-3 px-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Szczegóły
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-600 dark:border-gray-600 text-center">
+                @foreach($archivedEvents as $tournament)
+                    <tr>
+                        <td class="py-4 px-6 text-sm font-medium text-gray-900 dark:text-gray-100">
+                            {{ $tournament->name }}
+                        </td>
+                        <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300">
+                            {{ $tournament->fromAge }}
+                        </td>
+                        <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300">
+                            {{ $tournament->toAge }}
+                        </td>
+                        <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300 ">
+                            {{ $tournament->date }}
+                        </td>
+                        <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300">
+                            {{ $tournament->participants()->count() }}/{{ $tournament->numberPeople }}
+                        </td>
+                        <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300">
+                            {{ $tournament->place}}
+                        </td>
+                        <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300">
+                            @foreach($danceStyles[$tournament->id] as $style)
+                                {{ $style }}<br>
+                            @endforeach
+                        </td>
+                        <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300 flex items-center justify-center">
+                            <form method="GET" action="{{ route('tournaments.more', ['id' => $tournament->id]) }}" >
+                                @csrf
+                                <button type="submit">
+                                    <i class="fas fa-info-circle"></i> Szczegóły
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <div class="mt-4">
+            {{ $archivedEvents->links() }}
         </div>
     @endif
 </div>
+
 @endsection
+
+

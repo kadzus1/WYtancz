@@ -70,7 +70,9 @@
                                 @csrf
                                 @method('delete')
                                 <button type="submit"><i class="fas fa-dumpster"></i></button>
-                            </form>
+                            </form><span class="ml-2 mr-2">     |     </span>
+                            <a href="{{ route('tournaments.results', ['tournamentId' => $tournament->id]) }}" class="text-blue-500 hover:underline"><i class="fas fa-trophy"></i></a>
+
                         </td>
                     </tr>
                 @endforeach

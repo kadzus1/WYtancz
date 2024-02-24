@@ -45,4 +45,10 @@ class TournamentParticipant extends Model
     {
         return $this->belongsTo(Team::class);
     }
+
+     // Relacja do wyników turnieju
+     public function results()
+     {
+         return $this->hasMany(TournamentResult::class, 'participant_id');
+     }
 }

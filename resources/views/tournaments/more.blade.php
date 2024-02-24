@@ -10,7 +10,7 @@
 
     <div style="width: 30%; border-radius: 20%; padding: 20px; transition: transform 0.3s ease-in-out;">
         <i class="fas fa-calendar" style="font-size: 4em; color: #9d0000; padding:30px; border-radius: 50%;"></i><br>
-        <h3 style="font-size: 2em; color: black; margin-top: 10px;">Harmonogram</h3>       
+        <h3 style="font-size: 2em; color: black; margin-top: 10px;"><a href="{{ route('tournaments.results', ['tournamentId' => $tournament->id]) }}">Wyniki</a></h3>       
     </div>
 
     <div style="width: 30%; border-radius: 20%; padding: 20px; transition: transform 0.3s ease-in-out;">

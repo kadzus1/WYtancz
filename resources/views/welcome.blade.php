@@ -23,21 +23,17 @@
         <div id="indicators-carousel" class="relative w-full" data-carousel="static">
     <!-- Carousel wrapper -->
     <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
-        @foreach ($randomPosts as $post)
-<div class="hidden duration-700 ease-in-out" data-carousel-item="{{ $loop->first ? 'active' : '' }}">
-   <div class="absolute bottom-0 left-0 bg-gray-800 p-2 w-full text-center">
-        <p class="font-bold">{{ $post->title }}</p>
-        <p class="text-xs text-gray-600">{{ $post->content }}</p>
+    @foreach ($posts as $post)
+        <div class="hidden duration-700 ease-in-out" data-carousel-item="{{ $loop->first ? 'active' : '' }}">
+            <img src="{{ Storage::url($post->image) }}" alt="Obraz" class="object-cover w-full h-full rounded-lg">
+        </div>
+    @endforeach
     </div>
-</div>
-@endforeach
 
-
-    </div>
     <!-- Slider indicators -->
     <div class="absolute z-30 flex -translate-x-1/2 space-x-3 rtl:space-x-reverse bottom-5 left-1/2">
-        @foreach ($randomPosts as $key => $post)
-        <button type="button" class="w-3 h-3 rounded-full" aria-current="{{ $key == 0 ? 'true' : 'false' }}" aria-label="Slide {{ $key + 1 }}" data-carousel-slide-to="{{ $key }}"></button>
+        @foreach ($posts as $key => $post)
+            <button type="button" class="w-3 h-3 rounded-full" aria-current="{{ $key == 0 ? 'true' : 'false' }}" aria-label="Slide {{ $key + 1 }}" data-carousel-slide-to="{{ $key }}"></button>
         @endforeach
     </div>
     <!-- Slider controls -->
@@ -58,9 +54,6 @@
         </span>
     </button>
 </div>
-
-    </div>
-</section>
 
     </div>
 </section>

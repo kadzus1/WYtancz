@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Tournament;
 use App\Models\Post;
 use App\Models\TournamentParticipant;
+use App\Models\TournamentResult;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\DanceStyle;
@@ -14,26 +15,44 @@ class TournamentController extends Controller
 {
     public function tournament()
     {
-        // Pobierz dane z tabeli 'tournament'
-        $tournaments = Tournament::where('type', 'solowe')->paginate(5);
-    
+        // Pobierz nadchodzące wydarzenia
+        $upcomingEvents = Tournament::where('date', '>=', now())
+            ->where('type', 'solowe')
+            ->paginate(5);
+        
+        // Pobierz archiwalne wydarzenia
+        $archivedEvents = Tournament::where('date', '<', now())
+            ->where('type', 'solowe')
+            ->paginate(5);
+
         // Inicjalizuj zmienną $danceStyles jako pustą tablicę
         $danceStyles = [];
-    
-        // Iteruj przez każdy turniej i zbierz jego style tańca, jeśli są zapisy
-        foreach ($tournaments as $tournament) {
-            if ($tournament->danceStyles()->exists()) {
-                $danceStyles[$tournament->id] = $tournament->danceStyles()->pluck('name');
+
+        // Iteruj przez każde wydarzenie i zbierz jego style tańca, jeśli są zapisy
+        foreach ($upcomingEvents as $event) {
+            if ($event->danceStyles()->exists()) {
+                $danceStyles[$event->id] = $event->danceStyles()->pluck('name');
             }
         }
-    
+
         // Przekaz dane do widoku
-        return view('tournaments.tournament', compact('tournaments', 'danceStyles'));
+        return view('tournaments.tournament', compact('upcomingEvents', 'archivedEvents', 'danceStyles'));
     }
     
 
     public function tournamentGroup()
 {
+
+    // Pobierz nadchodzące wydarzenia
+    $upcomingEvents = Tournament::where('date', '>=', now())
+    ->where('type', 'grupowe')
+    ->paginate(5);
+
+// Pobierz archiwalne wydarzenia
+$archivedEvents = Tournament::where('date', '<', now())
+    ->where('type', 'grupowe')
+    ->paginate(5);
+
     // Pobierz turnieje
     $tournaments = Tournament::where('type', 'grupowe')->paginate(5);
 
@@ -48,7 +67,7 @@ class TournamentController extends Controller
     }
 
     // Przekazanie danych do widoku
-    return view('tournaments.tournamentGroup', compact('tournaments', 'danceStyles'));
+    return view('tournaments.tournamentGroup', compact('tournaments', 'danceStyles', 'upcomingEvents', 'archivedEvents'));
 }
 
 
@@ -315,8 +334,10 @@ public function startList($tournamentId)
 //Dla fullcalendar
 public function getTournamentDates()
     {
-        $randomPosts = Post::inRandomOrder()->take(3)->get();
-    
+
+        $posts = Post::latest()->take(5)->get();
+
+
        // Pobierz daty turniejów z tabeli 'tournaments'
        $tournaments = Tournament::all();
        
@@ -330,10 +351,70 @@ public function getTournamentDates()
        }
        
        // Zwróć widok z przekazaniem danych
-       return view('welcome', ['randomPosts' => $randomPosts, 'events'=>$events]);
+       return view('welcome', ['events'=>$events, 'posts' => $posts]);
        
 
     }
+
+    //Dla wyników
+    public function results($tournamentId)
+    {
+        $tournament = Tournament::findOrFail($tournamentId);
+        // Pobierz style tańca dla danego turnieju
+        $danceStyles = DanceStyle::all();
+        
+        // Inicjalizuj pustą tablicę uczestników dla każdego stylu tańca
+        $participants = [];
+    
+        // Dla każdego stylu tańca pobierz uczestników i posortuj ich malejąco według liczby punktów
+    foreach ($danceStyles as $style) {
+        $participants[$style->id] = TournamentParticipant::where('tournament_id', $tournamentId)
+            ->where('dance_style_id', $style->id)
+            ->get()
+            ->sortByDesc(function ($participant) {
+                return $participant->results->sum('points');
+            });
+    }
+    
+        // Zwróć widok wraz z danymi uczestników, stylami tańca i identyfikatorem turnieju
+        return view('tournaments.results', compact('danceStyles', 'participants', 'tournamentId'));
+    }
+    
+    
+
+    public function save_results(Request $request)
+{
+    $points = $request->input('points');
+
+    foreach ($points as $participantId => $pointsValue) {
+        // Sprawdź czy wartość punktów nie jest pusta
+        if ($pointsValue !== null) {
+            // Sprawdź, czy dla tego uczestnika istnieją już wyniki w bazie danych
+            $existingResult = TournamentResult::where('participant_id', $participantId)
+                ->where('tournament_id', $request->input('tournament_id'))
+                ->first();
+
+            // Jeśli istnieją wyniki, zaktualizuj je
+            if ($existingResult) {
+                $existingResult->points = $pointsValue;
+                $existingResult->save();
+            } else {
+                // W przeciwnym razie stwórz nowy rekord
+                $result = new TournamentResult();
+                $result->tournament_id = $request->input('tournament_id');
+                $result->participant_id = $participantId;
+                $result->user_id = auth()->user()->id;
+                $result->style_id = $request->input('style_id'); // Możesz zmienić na odpowiednie pole, które określa styl
+                $result->points = $pointsValue;
+                $result->save();
+            }
+        }
+    }
+
+    return redirect()->back()->with('success', 'Wyniki zostały pomyślnie zapisane.');
+}
+
+    
 
 
 }
