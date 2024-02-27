@@ -31,7 +31,20 @@
             event.preventDefault();
     
             var tournamentId = this.getAttribute('data-tournament-id');
+
+            var currentDate = new Date();
+            var tournamentDate = new Date("{{ $tournament->date }}"); // Załóżmy, że data turnieju jest przechowywana w formacie YYYY-MM-DD w zmiennej $tournament->date
+
     
+            if (tournamentDate < currentDate) {
+        // Jeśli data turnieju jest wcześniejsza niż bieżąca data
+        Swal.fire({
+            title: 'Turniej archiwalny',
+            text: 'Nie możesz dołączyć do tego wydarzenia, ponieważ jest on archiwalny.',
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        });
+    } else {
             if ({{ auth()->check() ? 'true' : 'false' }}) {
                 fetch(`/api/tournaments/${tournamentId}/status`)
                     .then(response => response.json())
@@ -115,7 +128,7 @@
                         window.location.href = "{{ route('login') }}";
                     }
                 });
-            }
+            }}
         });
     </script>
     

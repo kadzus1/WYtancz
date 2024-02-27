@@ -209,7 +209,6 @@ public function joinEventSchool(Request $request, $id)
             $participantsData[] = [
                 'p_name' => $request->input('p_name.' . $key),
                 'p_surname' => $request->input('p_surname.' . $key),
-                'dance_style_id' => $request->input('dance_style.' . $key),
                 'birthDate' => $request->input('birthDate.' . $key),
                 'age' => $request->input('age.' . $key),
                 'town' => $request->input('town.' . $key),
@@ -221,6 +220,8 @@ public function joinEventSchool(Request $request, $id)
                 'teacherPhoneNumber' => $request->has('teacherPhoneNumber') && isset($request->input('teacherPhoneNumber')[0]) ? $request->input('teacherPhoneNumber')[0] : null,
                 'tournament_id' => $id,
                 'user_id' => $user_id,
+                'dance_style_id' => $request->input('dance_style')[$key], // Dodaj zapis wybranego stylu tańca
+           
                 
                 
             ];
@@ -335,8 +336,7 @@ public function startList($tournamentId)
 public function getTournamentDates()
     {
 
-        $posts = Post::latest()->take(5)->get();
-
+        $posts = Post::all();
 
        // Pobierz daty turniejów z tabeli 'tournaments'
        $tournaments = Tournament::all();
@@ -351,7 +351,8 @@ public function getTournamentDates()
        }
        
        // Zwróć widok z przekazaniem danych
-       return view('welcome', ['events'=>$events, 'posts' => $posts]);
+       return view('welcome', compact('posts', 'events'));
+
        
 
     }

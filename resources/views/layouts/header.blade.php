@@ -13,6 +13,8 @@
 
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
  
     
 
@@ -59,10 +61,6 @@
                         <li>
                             <a class="icon solid fa-trophy" href="{{ route('tournaments.tournament') }}">
                                 <span>Turnieje</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="fas fa-shopping-cart"><span>Sklep z odzieżą</span>
                             </a>
                         </li>
                     </ul>

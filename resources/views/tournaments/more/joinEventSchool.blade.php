@@ -41,17 +41,6 @@
                     <x-text-input class="block mt-1 w-full" type="text" name="p_surname[]" />
                     <x-input-error :messages="$errors->get('p_surname')" class="mt-2" />
                 </div>
-                {{-- Dance Style --}}
-                <div>
-                    <x-input-label :value="__('Styl tańca')" />
-                    <select class="block mt-1 w-full" name="dance_style[]">
-                        <option value="" selected disabled>Wybierz styl tańca</option>
-                        @foreach($tournament->danceStyles as $index => $style)
-                            <option value="{{ $style->id }}">{{ $style->name }}</option>
-                        @endforeach
-                    </select>
-                    <x-input-error :messages="$errors->get('dance_style')" class="mt-2" />
-                </div>
     
                 <!-- Birth date -->
                 <div>
@@ -82,6 +71,17 @@
                     <x-input-error :messages="$errors->get('country')" class="mt-2" />
                 </div>
 
+                {{-- Dance Style --}}
+                <div>
+                    <x-input-label :value="__('Styl tańca')" />
+                    <select class="block mt-1 w-full" name="dance_style[]">
+                        @foreach($tournament->danceStyles as $style)
+                            <option value="{{ $style->id }}">{{ $style->name }}</option>
+                        @endforeach
+                    </select>
+                    <x-input-error :messages="$errors->get('dance_style')" class="mt-2" />
+                </div>
+                
                 
             </div>
         </div>

@@ -66,5 +66,21 @@ public function userPosts()
         $post = Post::findOrFail($id);
         return view('subpage.user-posts.edit-post', compact('post'));
     }
+
+    public function destroy($id)
+{
+    // Znajdź post o podanym identyfikatorze
+    $post = Post::findOrFail($id);
+
+    // Sprawdź, czy zalogowany użytkownik jest właścicielem posta
+    if (Auth::id() !== $post->user_id) {
+        return redirect()->back()->with('error', 'Nie masz uprawnień do usunięcia tego posta.');
+    }
+
+    // Usuń post
+    $post->delete();
+
+    return redirect()->route('blog')->with('success', 'Post został pomyślnie usunięty.');
+}
     
 }
