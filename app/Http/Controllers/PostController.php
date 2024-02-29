@@ -82,5 +82,28 @@ public function userPosts()
 
     return redirect()->route('blog')->with('success', 'Post został pomyślnie usunięty.');
 }
+
+public function update(Request $request, $id)
+{
+    // Znajdź post o podanym identyfikatorze
+    $post = Post::findOrFail($id);
+
+    // Sprawdź, czy zalogowany użytkownik jest właścicielem posta
+    if (Auth::id() !== $post->user_id) {
+        return redirect()->back()->with('error', 'Nie masz uprawnień do edycji tego posta.');
+    }
+
+    // Walidacja danych wejściowych
+    $validatedData = $request->validate([
+        'title' => 'required',
+        'content' => 'required',
+    ]);
+
+    // Zaktualizuj dane posta
+    $post->update($validatedData);
+
+    return redirect()->route('blog')->with('success', 'Post został pomyślnie zaktualizowany.');
+}
+
     
 }

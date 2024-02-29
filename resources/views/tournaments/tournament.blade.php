@@ -85,10 +85,15 @@
                             {{ $tournament->place}}
                         </td>
                         <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300">
-                            @foreach($danceStyles[$tournament->id] as $style)
-                                {{ $style }}<br>
-                            @endforeach
+                            @if(isset($danceStyles[$tournament->id]))
+                                @foreach($danceStyles[$tournament->id] as $style)
+                                    {{ $style }}<br>
+                                @endforeach
+                            @else
+                                Brak danych
+                            @endif
                         </td>
+                        
                         <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300 flex items-center justify-center">
                             <form method="GET" action="{{ route('tournaments.more', ['id' => $tournament->id]) }}" >
                                 @csrf
@@ -163,9 +168,13 @@
                             {{ $tournament->place}}
                         </td>
                         <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300">
-                            @foreach($danceStyles[$tournament->id] as $style)
-                                {{ $style }}<br>
-                            @endforeach
+                             @if(isset($danceStyles[$tournament->id]))
+                                @foreach($danceStyles[$tournament->id] as $style)
+                                    {{ $style }}<br>
+                                @endforeach
+                            @else
+                                Brak danych
+                            @endif
                         </td>
                         <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300 flex items-center justify-center">
                             <form method="GET" action="{{ route('tournaments.more', ['id' => $tournament->id]) }}" >

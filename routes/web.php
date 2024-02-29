@@ -117,7 +117,7 @@ Route::middleware('auth')->group(function () {
     //Zarządzanie własnymi postami
     Route::get('/subpage/user-posts/', [PostController::class, 'userPosts'])->name('userPosts');
     Route::get('/subpage/user-posts/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
-Route::patch('/subpage/{post}/update', [PostController::class, 'update'])->name('subpage.user-posts.update');
+Route::patch('/subpage/user-posts/{id}', [PostController::class, 'update'])->name('posts.update');
 Route::delete('/subpage/user-posts/{post}', [PostController::class, 'destroy'])->name('post.destroy');
 
 });
