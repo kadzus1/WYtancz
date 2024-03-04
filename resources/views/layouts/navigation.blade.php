@@ -94,9 +94,17 @@
                     </x-dropdown-link>
                     </span> @endif
 
+                    @if (auth()->user()->hasRole('tancerz') || auth()->user()->hasRole('szkola_tanca')) 
                     <x-dropdown-link :href="route('userPosts')">
                             {{ __('Posty') }}
                         </x-dropdown-link>
+                    @endif
+
+                        @if (auth()->user()->hasRole('administrator'))
+                        <x-dropdown-link :href="route('all-posts')">
+                            {{ __('Wszystkie posty') }}
+                        </x-dropdown-link>
+                        </span> @endif
 
                     
 

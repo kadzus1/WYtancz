@@ -120,6 +120,9 @@ Route::middleware('auth')->group(function () {
 Route::patch('/subpage/user-posts/{id}', [PostController::class, 'update'])->name('posts.update');
 Route::delete('/subpage/user-posts/{post}', [PostController::class, 'destroy'])->name('post.destroy');
 
+Route::get('/all-posts', [PostController::class, 'allPosts'])->name('all-posts');
+
+
 });
 
 require __DIR__.'/auth.php';

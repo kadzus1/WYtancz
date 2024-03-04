@@ -16,6 +16,9 @@
             Boolean, default: true,
             contentHeight: 500,
             locale: 'pl',
+            buttonText: {
+            today: 'dzisiaj' // Dostosowanie tekstu przycisku "today" na "dzisiaj"
+        },
             events: <?php echo json_encode($events); ?>,
         });
         calendar.updateSize()
@@ -26,7 +29,7 @@
 <section id="features">
 
     <div class="container">
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="max-width: 1200px; max-height: 600px; margin: auto;">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="max-width: 800px; max-height: 400px; margin: auto;">
         <ol class="carousel-indicators">
             @foreach($posts as $key => $post)
                 <li data-target="#carouselExampleIndicators" data-slide-to="{{ $key }}" @if($key == 0) class="active" @endif></li>

@@ -387,9 +387,15 @@ public function getTournamentDates()
 {
     $points = $request->input('points');
 
-    foreach ($points as $participantId => $pointsValue) {
-        // Sprawdź czy wartość punktów nie jest pusta
-        if ($pointsValue !== null) {
+    // Walidacja danych wejściowych
+    $validatedData = $request->validate([
+        'points.*' => 'nullable|numeric|max:10',
+    ]);
+
+    // Iteracja przez punkty uczestników
+    foreach ($validatedData['points'] as $participantId => $pointsValue) {
+        // Sprawdź czy wartość punktów nie jest mniejsza niż 0
+        if ($pointsValue !== null && $pointsValue >= 0) {
             // Sprawdź, czy dla tego uczestnika istnieją już wyniki w bazie danych
             $existingResult = TournamentResult::where('participant_id', $participantId)
                 ->where('tournament_id', $request->input('tournament_id'))
@@ -409,6 +415,9 @@ public function getTournamentDates()
                 $result->points = $pointsValue;
                 $result->save();
             }
+        } else {
+            // Jeśli wartość punktów jest mniejsza niż 0, zignoruj ją
+            continue;
         }
     }
 

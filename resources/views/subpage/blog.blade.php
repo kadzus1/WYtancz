@@ -13,7 +13,7 @@
             <div class="col-md-4 mb-4">
                 <div class="media mb-3">
                     @if ($post->image)
-                    <div class="relative" style="width:350px; height:350px">
+                    <div class="relative" style="width:500px; height:600px"> <!-- Zwiększenie rozmiaru kontenera -->
                         <img src="{{ Storage::url($post->image) }}" alt="Obraz" class="object-cover w-full h-full rounded-lg"> 
                         <div class="absolute bottom-0 left-0 bg-white p-2 w-full text-center">
                             <p class="font-bold">{{ $post->title }}</p>
