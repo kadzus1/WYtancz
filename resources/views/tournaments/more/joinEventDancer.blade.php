@@ -4,8 +4,6 @@
     @include('layouts.navigationNU')
 @endif
 
- 
-
 <x-guest-layout>
 
     

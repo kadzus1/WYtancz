@@ -60,7 +60,12 @@
                         <li><a class="icon brands fa-blogger-b" href="{{ route('blog') }}"><span>Blog</span></a></li>
                         <li>
                             <a class="icon solid fa-trophy" href="{{ route('tournaments.tournament') }}">
-                                <span>Turnieje</span>
+                                <span>Turnieje solowe</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="icon solid fa-trophy" href="{{ route('tournaments.tournamentGroup') }}">
+                                <span>Turnieje grupowe</span>
                             </a>
                         </li>
                     </ul>

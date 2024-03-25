@@ -95,12 +95,18 @@
                         </td>
                         
                         <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300 flex items-center justify-center">
+                            @if(auth()->check())
                             <form method="GET" action="{{ route('tournaments.more', ['id' => $tournament->id]) }}" >
                                 @csrf
                                 <button type="submit">
                                     <i class="fas fa-info-circle"></i> Szczegóły
                                 </button>
                             </form>
+                            @else
+                            <button onclick="showLoginAlert()">
+                                <i class="fas fa-info-circle"></i> Szczegóły
+                            </button>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
@@ -168,21 +174,23 @@
                             {{ $tournament->place}}
                         </td>
                         <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300">
-                             @if(isset($danceStyles[$tournament->id]))
-                                @foreach($danceStyles[$tournament->id] as $style)
-                                    {{ $style }}<br>
-                                @endforeach
-                            @else
-                                Brak danych
-                            @endif
+                            @foreach($danceStyles[$tournament->id] as $style)
+                                {{ $style }}<br>
+                            @endforeach
                         </td>
                         <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300 flex items-center justify-center">
+                            @if(auth()->check())
                             <form method="GET" action="{{ route('tournaments.more', ['id' => $tournament->id]) }}" >
                                 @csrf
                                 <button type="submit">
                                     <i class="fas fa-info-circle"></i> Szczegóły
                                 </button>
                             </form>
+                            @else
+                            <button onclick="showLoginAlert()">
+                                <i class="fas fa-info-circle"></i> Szczegóły
+                            </button>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
@@ -193,5 +201,24 @@
         </div>
     @endif
 </div>
+
+<script>
+    function showLoginAlert() {
+    Swal.fire({
+        icon: 'info',
+        title: 'Zaloguj się',
+        text: 'Aby zobaczyć szczegóły, musisz być zalogowany.',
+        showCancelButton: true,
+        confirmButtonText: 'Zaloguj',
+        cancelButtonText: 'Anuluj',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Przekierowanie do strony logowania
+            window.location.href = '/login'; // Tutaj podaj odpowiedni adres URL do strony logowania
+        }
+    });
+}
+
+</script>
 
 @endsection

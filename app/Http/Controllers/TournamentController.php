@@ -16,24 +16,27 @@ class TournamentController extends Controller
     public function tournament()
     {
         // Pobierz nadchodzące wydarzenia
-        $upcomingEvents = Tournament::where('date', '>=', now())
-            ->where('type', 'solowe')
-            ->paginate(5);
-        
-        // Pobierz archiwalne wydarzenia
-        $archivedEvents = Tournament::where('date', '<', now())
-            ->where('type', 'solowe')
-            ->paginate(5);
+    $upcomingEvents = Tournament::where('date', '>=', now())
+    ->where('type', 'solowe')
+    ->paginate(5);
 
-        // Inicjalizuj zmienną $danceStyles jako pustą tablicę
-        $danceStyles = [];
+// Pobierz archiwalne wydarzenia
+$archivedEvents = Tournament::where('date', '<', now())
+    ->where('type', 'solowe')
+    ->paginate(5);
 
-        // Iteruj przez każde wydarzenie i zbierz jego style tańca, jeśli są zapisy
-        foreach ($upcomingEvents as $event) {
-            if ($event->danceStyles()->exists()) {
-                $danceStyles[$event->id] = $event->danceStyles()->pluck('name');
-            }
+    // Pobierz turnieje
+    $tournaments = Tournament::where('type', 'solowe')->paginate(5);
+
+    // Inicjalizuj zmienną $danceStyles jako pustą tablicę
+    $danceStyles = [];
+    
+    // Iteruj przez każdy turniej i zbierz jego style tańca, jeśli są zapisy
+    foreach ($tournaments as $tournament) {
+        if ($tournament->danceStyles()->exists()) {
+            $danceStyles[$tournament->id] = $tournament->danceStyles()->pluck('name');
         }
+    }
 
         // Przekaz dane do widoku
         return view('tournaments.tournament', compact('upcomingEvents', 'archivedEvents', 'danceStyles'));

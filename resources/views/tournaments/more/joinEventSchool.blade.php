@@ -131,33 +131,32 @@
 
         <script>
             function calculateAge(input, dancerIndex) {
-    var birthDate = new Date(input.value);
-    var today = new Date();
-    var age = today.getFullYear() - birthDate.getFullYear();
+                var birthDate = new Date(input.value);
+                var today = new Date();
+                var age = today.getFullYear() - birthDate.getFullYear();
 
-    // Sprawdź, czy urodziny w tym roku już były
-    if (today.getMonth() < birthDate.getMonth() || (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
-        age--;
-    }
+                // Sprawdź, czy urodziny w tym roku już były
+                if (today.getMonth() < birthDate.getMonth() || (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
 
-    // Zapisz wiek do pola wieku
-    document.getElementsByName('age[]')[dancerIndex].value = age;
+                // Zapisz wiek do pola wieku
+                document.getElementsByName('age[]')[dancerIndex].value = age;
 
-    // Sprawdź, czy wiek mieści się w zakresie
-    var minAge = {{ $tournament->fromAge }};
-    var maxAge = {{ $tournament->toAge }};
-    if (age < minAge || age > maxAge) {
-        // Wiek nie mieści się w zakresie, wyświetl komunikat
-        document.getElementById('ageErrorMessage').innerText = 'Wiek nie mieści się w wymaganym zakresie (' + minAge + '-' + maxAge + ')';
-        document.getElementById('ageErrorMessage').classList.remove('hidden');
-        return false; // Zwróć false, aby uniemożliwić zapis danych
-    } else {
-        // Wiek mieści się w zakresie, ukryj komunikat
-        document.getElementById('ageErrorMessage').classList.add('hidden');
-        return true; // Zwróć true, aby umożliwić zapis danych
-    }
-}
-
+                // Sprawdź, czy wiek mieści się w zakresie
+                var minAge = {{ $tournament->fromAge }};
+                var maxAge = {{ $tournament->toAge }};
+                if (age < minAge || age > maxAge) {
+                    // Wiek nie mieści się w zakresie, wyświetl komunikat
+                    document.getElementById('ageErrorMessage').innerText = 'Wiek nie mieści się w wymaganym zakresie (' + minAge + '-' + maxAge + ')';
+                    document.getElementById('ageErrorMessage').classList.remove('hidden');
+                    return false; // Zwróć false, aby uniemożliwić zapis danych
+                } else {
+                    // Wiek mieści się w zakresie, ukryj komunikat
+                    document.getElementById('ageErrorMessage').classList.add('hidden');
+                    return true; // Zwróć true, aby umożliwić zapis danych
+                }
+            }
 
             document.getElementById('saveButton').addEventListener('click', function (event) {
                 // Sprawdź wiek przed zapisem danych
@@ -175,47 +174,45 @@
             });
 
             function addDancerForm() {
-    var dancerContainer = document.getElementById('dancerContainer');
-    var newDancerSection = dancerContainer.querySelector('.dancerSection').cloneNode(true);
-    var dancerCount = dancerContainer.children.length;
-    document.getElementById('dancerCount').innerText = dancerCount + 1;
+                var dancerContainer = document.getElementById('dancerContainer');
+                var newDancerSection = dancerContainer.querySelector('.dancerSection').cloneNode(true);
+                var dancerCount = dancerContainer.children.length;
+                document.getElementById('dancerCount').innerText = dancerCount + 1;
 
-    // Aktualizacja onchange dla pola daty urodzenia
-    var birthDateInput = newDancerSection.querySelector('[name="birthDate[]"]');
-    birthDateInput.setAttribute('onchange', 'calculateAge(this, ' + dancerCount + ')');
-    birthDateInput.setAttribute('id', 'birthDate_' + dancerCount);
+                // Aktualizacja onchange dla pola daty urodzenia
+                var birthDateInput = newDancerSection.querySelector('[name="birthDate[]"]');
+                birthDateInput.setAttribute('onchange', 'calculateAge(this, ' + dancerCount + ')');
+                birthDateInput.setAttribute('id', 'birthDate_' + dancerCount);
 
-    // Wyczyszczenie pól formularza w nowej sekcji
-    var inputs = newDancerSection.querySelectorAll('input, select');
-    inputs.forEach(function(input) {
-        input.value = '';
-    });
+                // Wyczyszczenie pól formularza w nowej sekcji
+                var inputs = newDancerSection.querySelectorAll('input, select');
+                inputs.forEach(function(input) {
+                    input.value = '';
+                });
 
-    dancerContainer.appendChild(newDancerSection);
-    newDancerSection.classList.remove('hidden');
+                dancerContainer.appendChild(newDancerSection);
+                newDancerSection.classList.remove('hidden');
 
-    // Aktualizacja obsługi zmiany stanu checkboxa
-    document.getElementById('addInstructor').addEventListener('change', function () {
-        var instructorFields = document.getElementById('instructorFields');
+                // Aktualizacja obsługi zmiany stanu checkboxa
+                document.getElementById('addInstructor').addEventListener('change', function () {
+                    var instructorFields = document.getElementById('instructorFields');
 
-        if (this.checked) {
-            instructorFields.style.display = 'block';
-            // Aktywuj pola instruktora
-            document.getElementById('organizator').removeAttribute('disabled');
-            document.getElementById('teacherName').removeAttribute('disabled');
-            document.getElementById('teacherSurname').removeAttribute('disabled');
-            document.getElementById('teacherPhoneNumber').removeAttribute('disabled');
-        } else {
-            instructorFields.style.display = 'none';
-            // Zdezaktywuj pola instruktora
-            document.getElementById('organizator').setAttribute('disabled', 'disabled');
-            document.getElementById('teacherName').setAttribute('disabled', 'disabled');
-            document.getElementById('teacherSurname').setAttribute('disabled', 'disabled');
-            document.getElementById('teacherPhoneNumber').setAttribute('disabled', 'disabled');
-        }
-    });
-
-
+                    if (this.checked) {
+                        instructorFields.style.display = 'block';
+                        // Aktywuj pola instruktora
+                        document.getElementById('organizator').removeAttribute('disabled');
+                        document.getElementById('teacherName').removeAttribute('disabled');
+                        document.getElementById('teacherSurname').removeAttribute('disabled');
+                        document.getElementById('teacherPhoneNumber').removeAttribute('disabled');
+                    } else {
+                        instructorFields.style.display = 'none';
+                        // Zdezaktywuj pola instruktora
+                        document.getElementById('organizator').setAttribute('disabled', 'disabled');
+                        document.getElementById('teacherName').setAttribute('disabled', 'disabled');
+                        document.getElementById('teacherSurname').setAttribute('disabled', 'disabled');
+                        document.getElementById('teacherPhoneNumber').setAttribute('disabled', 'disabled');
+                    }
+                });
             }
         </script>
     </form>
