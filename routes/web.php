@@ -45,6 +45,7 @@ Route::post('register', [RegisteredUserController::class, 'store']);
 
 //Przejście do listy turniejów solowych
 Route::get('/tournament', [TournamentController::class, 'tournament'])->name('tournaments.tournament');
+
 //Przejście do turiejów grupowych
 Route::get('/tournamentGroup', [TournamentController::class, 'tournamentGroup'])->name('tournaments.tournamentGroup');
 

@@ -7,7 +7,7 @@ class DanceStyle extends Model
 {
     public function tournaments()
     {
-        return $this->belongsToMany(Tournament::class, 'dance_style_tournament');
+        return $this->belongsToMany(Tournament::class, 'dance_style_tournament', 'dance_style_id', 'tournament_id');
     }
 
     public function participants()

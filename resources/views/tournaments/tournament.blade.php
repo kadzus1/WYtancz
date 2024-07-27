@@ -85,7 +85,7 @@
                             {{ $tournament->place}}
                         </td>
                         <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300">
-                            @if(isset($danceStyles[$tournament->id]))
+                            @if(isset($danceStyles[$tournament->id]) && $danceStyles[$tournament->id]->isNotEmpty())
                                 @foreach($danceStyles[$tournament->id] as $style)
                                     {{ $style }}<br>
                                 @endforeach

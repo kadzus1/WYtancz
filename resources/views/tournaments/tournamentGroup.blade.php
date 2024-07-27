@@ -85,9 +85,13 @@
                             {{ $tournament->place}}
                         </td>
                         <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300">
-                            @foreach($danceStyles[$tournament->id] as $style)
-                                {{ $style }}<br>
-                            @endforeach
+                            @if(isset($danceStyles[$tournament->id]) && !$danceStyles[$tournament->id]->isEmpty())
+                                @foreach($danceStyles[$tournament->id] as $style)
+                                    {{ $style }}<br>
+                                @endforeach
+                            @else
+                                Brak stylów tańca dla tego turnieju.
+                            @endif
                         </td>
                         <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300 flex items-center justify-center">
                             <form method="GET" action="{{ route('tournaments.more', ['id' => $tournament->id]) }}">
@@ -138,11 +142,11 @@
                         Style tańca
                     </th>
                     <th scope="col" class="py-3 px-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Szczegóły
+                        Operacje
                     </th>
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-600 dark:border-gray-600 text-center">
+            <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-600 dark:border-gray-600">
                 @foreach($archivedEvents as $tournament)
                     <tr>
                         <td class="py-4 px-6 text-sm font-medium text-gray-900 dark:text-gray-100">
@@ -154,7 +158,7 @@
                         <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300">
                             {{ $tournament->toAge }}
                         </td>
-                        <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300 ">
+                        <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300">
                             {{ $tournament->date }}
                         </td>
                         <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300">
@@ -164,12 +168,16 @@
                             {{ $tournament->place}}
                         </td>
                         <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300">
-                            @foreach($danceStyles[$tournament->id] as $style)
-                                {{ $style }}<br>
-                            @endforeach
+                            @if(isset($danceStyles[$tournament->id]) && !$danceStyles[$tournament->id]->isEmpty())
+                                @foreach($danceStyles[$tournament->id] as $style)
+                                    {{ $style }}<br>
+                                @endforeach
+                            @else
+                                Brak stylów tańca dla tego turnieju.
+                            @endif
                         </td>
                         <td class="py-4 px-6 text-sm text-gray-500 dark:text-gray-300 flex items-center justify-center">
-                            <form method="GET" action="{{ route('tournaments.more', ['id' => $tournament->id]) }}" >
+                            <form method="GET" action="{{ route('tournaments.more', ['id' => $tournament->id]) }}">
                                 @csrf
                                 <button type="submit">
                                     <i class="fas fa-info-circle"></i> Szczegóły
@@ -187,5 +195,3 @@
 </div>
 
 @endsection
-
-
